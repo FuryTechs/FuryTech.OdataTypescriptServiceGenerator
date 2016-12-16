@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using FuryTech.OdataTypescriptServiceGenerator.Models;
 
-
-namespace FuryTech.OdataTypescriptServiceGenerator.Exporter
+namespace FuryTech.OdataTypescriptServiceGenerator
 {
     public class DirectoryManager
     {
@@ -59,7 +59,6 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Exporter
                 Logger.Log($"Creating subdirectory '{path}'");
                 _di.CreateSubdirectory(path);
             }
-
         }
 
         public DirectoryManager(string outFolder)

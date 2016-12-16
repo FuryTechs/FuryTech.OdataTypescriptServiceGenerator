@@ -43,21 +43,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exporter\DirectoryManager.cs" />
+    <Compile Include="DirectoryManager.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Models\Container.cs" />
     <Compile Include="Models\EntityType.cs" />
-    <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\Property.cs" />
     <Compile Include="Models\NavigationProperty.cs" />
-    <Compile Include="Parsers\MetadataReader.cs" />
+    <Compile Include="MetadataReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TemplateRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="Templates\ImportTemplate.tst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Templates\" />
+    <Folder Include="Exporter\" />
+    <Folder Include="Parsers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Templates\EntityTypeTemplate.tst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\PropertyTemplate.tst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
