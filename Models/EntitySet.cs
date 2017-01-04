@@ -2,9 +2,9 @@
 
 namespace FuryTech.OdataTypescriptServiceGenerator.Models
 {
-    public class Container
+    public class EntitySet
     {
-        public Container(XElement xElement)
+        public EntitySet(XElement xElement)
         {
             Name = xElement.Attribute("Name")?.Value;
             EntityType = xElement.Attribute("EntityType")?.Value;

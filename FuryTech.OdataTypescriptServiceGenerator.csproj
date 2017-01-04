@@ -46,7 +46,7 @@
     <Compile Include="DirectoryManager.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="Models\Container.cs" />
+    <Compile Include="Models\EntitySet.cs" />
     <Compile Include="Models\EntityType.cs" />
     <Compile Include="Models\EnumMember.cs" />
     <Compile Include="Models\EnumType.cs" />

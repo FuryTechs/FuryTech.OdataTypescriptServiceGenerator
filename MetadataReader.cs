@@ -9,7 +9,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
     {
         public List<EntityType> EntityTypes { get; private set; }
         public List<EnumType> EnumTypes { get; private set; }
-        public List<Container> ContainerList { get; private set; }
+        public List<EntitySet> EntitySetList { get; private set; }
 
         public IEnumerable<string> NameSpaces
         {
@@ -49,18 +49,18 @@ namespace FuryTech.OdataTypescriptServiceGenerator
 
         private void ReadContainers(XDocument xdoc)
         {
-            Logger.Log("Parsing containers...");
-            var containerList = new List<Container>();
+            Logger.Log("Parsing entity sets...");
+            var containerList = new List<EntitySet>();
             var elements = xdoc.Descendants().Where(a => a.Name.LocalName == "EntitySet");
 
             foreach (var xElement in elements)
             {
-                var tContainer = new Container(xElement);
+                var tContainer = new EntitySet(xElement);
                 containerList.Add(tContainer);
-                Logger.Log($"Container '{tContainer.Name}' parsed");
+                Logger.Log($"Entity set '{tContainer.Name}' parsed");
             }
 
-            ContainerList = containerList;
+            EntitySetList = containerList;
         }
 
         public MetadataReader(XDocument xdoc)
