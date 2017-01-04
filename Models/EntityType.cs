@@ -48,7 +48,12 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Models
         {
             get
             {
-                var namespaces = NavigationProperties.Select(a => a.Type).Where(a=>a != Namespace+"."+Name).Distinct();
+                var namespaces = NavigationProperties.Select(a => a.Type).Where(a=>a != Namespace+"."+Name).Distinct().ToList();
+                
+                /*For enums with namespaces*/
+                namespaces.AddRange(Properties.Where(a=>a.Type.StartsWith(Namespace)).Select(a=>a.Type));
+               
+
                 var uris = namespaces.Select(a => new Uri("//" + a.Replace(".", "/")));
                 return uris;
             }

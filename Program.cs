@@ -36,6 +36,8 @@ namespace FuryTech.OdataTypescriptServiceGenerator
 
                 templateRenderer.CreateEntityTypes(metadataReader.EntityTypes);
 
+                templateRenderer.CreateEnums(metadataReader.EnumTypes);
+
             }
             catch (Exception ex)
             {

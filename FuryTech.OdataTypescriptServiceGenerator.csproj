@@ -48,6 +48,8 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Models\Container.cs" />
     <Compile Include="Models\EntityType.cs" />
+    <Compile Include="Models\EnumMember.cs" />
+    <Compile Include="Models\EnumType.cs" />
     <Compile Include="Models\Property.cs" />
     <Compile Include="Models\NavigationProperty.cs" />
     <Compile Include="MetadataReader.cs" />
@@ -63,13 +65,18 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exporter\" />
-    <Folder Include="Parsers\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Templates\EntityTypeTemplate.tst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\EnumMemberTemplate.tst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\EnumTypeTemplate.tst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\PropertyTemplate.tst">

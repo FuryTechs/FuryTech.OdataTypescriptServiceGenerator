@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 
 namespace FuryTech.OdataTypescriptServiceGenerator.Models
 {
@@ -22,7 +22,9 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Models
                     case "Edm.DateTimeOffset":
                         return "Date";
                     default:
-                        return "any";
+                    {
+                        return Type.Contains(".") ? Type.Split('.').Last(a => !string.IsNullOrWhiteSpace(a)) : "any";
+                    }
                 }
             }
         }

@@ -8,6 +8,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
     public class MetadataReader
     {
         public List<EntityType> EntityTypes { get; private set; }
+        public List<EnumType> EnumTypes { get; private set; }
         public List<Container> ContainerList { get; private set; }
 
         public IEnumerable<string> NameSpaces
@@ -30,6 +31,22 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             EntityTypes = typeList;
         }
 
+        private void ReadEnums(XDocument xdoc)
+        {
+            Logger.Log("Parsing enums...");
+            var enumList = new List<EnumType>();
+            var elements = xdoc.Descendants().Where(a => a.Name.LocalName == "EnumType");
+
+            foreach (var xElement in elements)
+            {
+                var enT = new EnumType(xElement);
+                enumList.Add(enT);
+                Logger.Log($"Enum Type  '{enT.Namespace}.{enT.Name}' parsed");
+            }
+            EnumTypes = enumList;
+
+        }
+
         private void ReadContainers(XDocument xdoc)
         {
             Logger.Log("Parsing containers...");
@@ -49,7 +66,10 @@ namespace FuryTech.OdataTypescriptServiceGenerator
         public MetadataReader(XDocument xdoc)
         {
             ReadEntityTypes(xdoc);
+            ReadEnums(xdoc);
+
             ReadContainers(xdoc);
+
         }
     }
 }

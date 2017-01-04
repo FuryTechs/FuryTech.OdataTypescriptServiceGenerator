@@ -11,6 +11,8 @@ namespace FuryTech.OdataTypescriptServiceGenerator
         private readonly string _entityTemplate;
         private readonly string _propertyTemplate;
         private readonly string _importTemplate;
+        private readonly string _enumTypeTemplate;
+        private readonly string _enumMemberTemplate;
 
         private readonly string _outFolder;
 
@@ -20,6 +22,8 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             _entityTemplate = File.ReadAllText("Templates\\EntityTypeTemplate.tst");
             _propertyTemplate = File.ReadAllText("Templates\\PropertyTemplate.tst");
             _importTemplate = File.ReadAllText("Templates\\ImportTemplate.tst");
+            _enumTypeTemplate = File.ReadAllText("Templates\\EnumTypeTemplate.tst");
+            _enumMemberTemplate = File.ReadAllText("Templates\\EnumMemberTemplate.tst");
         }
 
         public void CreateEntityTypes(IEnumerable<EntityType> types)
@@ -33,7 +37,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
         {
             var imports = entityType.Imports.Select(import =>
             {
-                var rel = entityType.Uri.MakeRelativeUri(import); // Uri.MakeRelativeUri(entityType.Name.Replace(".", "/"), import.Replace(".", "/"));
+                var rel = entityType.Uri.MakeRelativeUri(import);
 
                 return _importTemplate.Clone()
                     .ToString()
@@ -65,6 +69,31 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 .Replace("$imports$", string.Join("", imports));
 
             File.WriteAllText($"{_outFolder}\\{ns}\\{entityType.Name}.ts", ent);
+        }
+
+        public void CreateEnums(IEnumerable<EnumType> types)
+        {
+            foreach (var enumType in types)
+            {
+                CreateEnum(enumType);
+            }
+        }
+
+        private void CreateEnum(EnumType enumType)
+        {
+            var ns = enumType.Namespace.Replace('.', Path.DirectorySeparatorChar);
+
+            var members = enumType.Members.Select(m => _enumMemberTemplate.Clone().ToString()
+                .Replace("$memberName$", m.Name)
+                .Replace("$memberValue$", m.Value));
+
+            var ent = _enumTypeTemplate.Clone().ToString()
+                .Replace("$EnumType$", enumType.Name)
+                .Replace("$members$", string.Join("",members).TrimEnd(','));
+
+            File.WriteAllText($"{_outFolder}\\{ns}\\{enumType.Name}.ts", ent);
+
+
         }
     }
 }
