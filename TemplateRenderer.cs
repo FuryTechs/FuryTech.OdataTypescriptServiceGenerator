@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using FuryTech.OdataTypescriptServiceGenerator.Models;
@@ -19,11 +20,11 @@ namespace FuryTech.OdataTypescriptServiceGenerator
         public TemplateRenderer(string outFolder)
         {
             _outFolder = outFolder;
-            _entityTemplate = File.ReadAllText("Templates\\EntityTypeTemplate.tst");
-            _propertyTemplate = File.ReadAllText("Templates\\PropertyTemplate.tst");
-            _importTemplate = File.ReadAllText("Templates\\ImportTemplate.tst");
-            _enumTypeTemplate = File.ReadAllText("Templates\\EnumTypeTemplate.tst");
-            _enumMemberTemplate = File.ReadAllText("Templates\\EnumMemberTemplate.tst");
+            _entityTemplate = File.ReadAllText(ConfigurationManager.AppSettings["EntityTypeTemplate"]);
+            _propertyTemplate = File.ReadAllText(ConfigurationManager.AppSettings["EntityPropertyTemplate"]);
+            _importTemplate = File.ReadAllText(ConfigurationManager.AppSettings["ImportsTemplate"]);
+            _enumTypeTemplate = File.ReadAllText(ConfigurationManager.AppSettings["EnumTypeTemplate"]);
+            _enumMemberTemplate = File.ReadAllText(ConfigurationManager.AppSettings["EnumMemberTemplate"]);
         }
 
         public void CreateEntityTypes(IEnumerable<EntityType> types)
@@ -89,7 +90,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
 
             var ent = _enumTypeTemplate.Clone().ToString()
                 .Replace("$EnumType$", enumType.Name)
-                .Replace("$members$", string.Join("",members).TrimEnd(','));
+                .Replace("$members$", string.Join("", members).TrimEnd(','));
 
             File.WriteAllText($"{_outFolder}\\{ns}\\{enumType.Name}.ts", ent);
 
