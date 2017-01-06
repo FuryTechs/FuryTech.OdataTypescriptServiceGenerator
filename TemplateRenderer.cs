@@ -18,6 +18,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
         private readonly string _enumMemberTemplate;
         private readonly string _entitySetServiceTemplate;
         private readonly string _contextTemplate;
+        private readonly string _angularModuleTemplate;
 
 
         private readonly string _outFolder;
@@ -32,6 +33,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             _enumMemberTemplate = File.ReadAllText(ConfigurationManager.AppSettings["EnumMemberTemplate"]);
             _entitySetServiceTemplate = File.ReadAllText(ConfigurationManager.AppSettings["EntitySetServiceTemplate"]);
             _contextTemplate = File.ReadAllText(ConfigurationManager.AppSettings["ContextTemplate"]);
+            _angularModuleTemplate = File.ReadAllText(ConfigurationManager.AppSettings["AngularModuleTemplate"]);
 
         }
 
@@ -125,7 +127,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             var template = _entitySetServiceTemplate.Clone().ToString()
                 .Replace("$entitySetUrl$", entitySet.EntitySetName)
                 .Replace("$entityTypeName$", entitySet.EntityType.Split('.').Last());
-            DoRender(entitySet, template, entitySet.Name + ".service");
+            DoRender(entitySet, template);
         }
 
         public void CreateContext(string metadataPath, string odataVersion)
@@ -137,6 +139,16 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 .Replace("$CreationDate$", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
                 .Replace("$ODataVersion$", odataVersion);
             File.WriteAllText($"{_outFolder}\\ODataContext.ts", template);
+        }
+
+        public void CreateAngularModule(AngularModule module)
+        {
+            var template = _angularModuleTemplate.Clone().ToString()
+                .Replace("$moduleProviders$", string.Join(",\r\n\t",module.EntitySets.Select(a=>a.Name)))
+                .Replace("$moduleName$", module.Name);
+
+            DoRender(module, template);
+
         }
     }
 }

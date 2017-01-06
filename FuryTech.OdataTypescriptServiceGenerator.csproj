@@ -50,6 +50,7 @@
     <Compile Include="Interfaces\INamespaced.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Models\AngularModule.cs" />
     <Compile Include="Models\EntitySet.cs" />
     <Compile Include="Models\EntityType.cs" />
     <Compile Include="Models\EnumMember.cs" />
@@ -63,12 +64,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Content Include="StaticContent\AngularOdataServiceBase.ts" />
-    <Content Include="StaticContent\ODataGetOperation.ts" />
-    <Content Include="StaticContent\ODataOperation.ts" />
-    <Content Include="StaticContent\ODataQuery.ts" />
-    <Content Include="StaticContent\ODataQueryResult.ts" />
-    <Content Include="StaticContent\ODataServiceAbstract.ts" />
+    <Content Include="StaticContent\AngularOdataServiceBase.ts">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="StaticContent\ODataGetOperation.ts">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="StaticContent\ODataOperation.ts">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="StaticContent\ODataQuery.ts">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="StaticContent\ODataQueryResult.ts">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="StaticContent\ODataServiceAbstract.ts">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Templates\ImportTemplate.tst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -78,6 +91,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Templates\AngularModuleTemplate.tst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\ContextTemplate.tst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

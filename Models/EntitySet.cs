@@ -12,7 +12,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Models
         public EntitySet(XElement xElement)
         {
             EntitySetName = xElement.Attribute("Name")?.Value;
-            Name = char.ToUpper(EntitySetName[0]) + EntitySetName.Substring(1);
+            Name = char.ToUpper(EntitySetName[0]) + EntitySetName.Substring(1) + "Service";
             EntityType = xElement.Attribute("EntityType")?.Value;
             NameSpace =
                 xElement.Ancestors().FirstOrDefault(a => a.Attribute("Namespace") != null)?.Attribute("Namespace").Value;
