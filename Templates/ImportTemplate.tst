@@ -1,1 +1,1 @@
-﻿import { $moduleNames$ } from "$relativePaths$";
+﻿import { $moduleNames$ } from '$relativePaths$';

@@ -44,6 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DirectoryManager.cs" />
+    <Compile Include="Extensions\ImportsExtensions.cs" />
+    <Compile Include="Interfaces\IHasImports.cs" />
+    <Compile Include="Interfaces\IHasUri.cs" />
+    <Compile Include="Interfaces\INamespaced.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Models\EntitySet.cs" />
@@ -59,18 +63,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="StaticContent\AngularOdataServiceBase.ts" />
+    <Content Include="StaticContent\ODataGetOperation.ts" />
+    <Content Include="StaticContent\ODataOperation.ts" />
+    <Content Include="StaticContent\ODataQuery.ts" />
+    <Content Include="StaticContent\ODataQueryResult.ts" />
+    <Content Include="StaticContent\ODataServiceAbstract.ts" />
     <Content Include="Templates\ImportTemplate.tst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Exporter\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Templates\EntitySetService.Angular.tst" />
+    <None Include="Templates\ContextTemplate.tst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\EntitySetService.Angular.tst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\EntityTypeTemplate.tst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -80,7 +93,6 @@
     <None Include="Templates\EnumTypeTemplate.tst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\Metadata.tst" />
     <None Include="Templates\PropertyTemplate.tst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

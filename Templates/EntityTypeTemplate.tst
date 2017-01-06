@@ -1,6 +1,6 @@
 ﻿// Created by FuryTech.ODataTypeScriptGenerator
 $imports$
-export class $EntityType$ {
+export class $Name$ {
 
     /* Navigation properties */
 $navigationProperties$

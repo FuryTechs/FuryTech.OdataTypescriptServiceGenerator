@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
+using FuryTech.OdataTypescriptServiceGenerator.Interfaces;
 
 namespace FuryTech.OdataTypescriptServiceGenerator.Models
 {
-    public class EnumType
+    public class EnumType : IRenderableElement
     {
 
         public string Name { get; private set; }
 
-        public string Namespace { get; set; }
+        public string NameSpace { get; private set; }
         public IEnumerable<EnumMember> Members { get; private set; }
 
         public EnumType(XElement sourceElement)
         {
             Name = sourceElement.Attribute("Name")?.Value;
-            Namespace = sourceElement.Parent?.Attribute("Namespace")?.Value;
+            NameSpace = sourceElement.Parent?.Attribute("Namespace")?.Value;
             Members = sourceElement.Descendants().Where(a => a.Name.LocalName == "Member")
                 .Select(propElement => new EnumMember()
                 {

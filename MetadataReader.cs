@@ -9,12 +9,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
     {
         public List<EntityType> EntityTypes { get; private set; }
         public List<EnumType> EnumTypes { get; private set; }
-        public List<EntitySet> EntitySetList { get; private set; }
-
-        public IEnumerable<string> NameSpaces
-        {
-            get { return EntityTypes.Select(a => a.Namespace).Distinct(); }
-        }
+        public List<EntitySet> EntitySets { get; private set; }
 
         private void ReadEntityTypes(XDocument xdoc)
         {
@@ -26,7 +21,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             {
                 var enT = new EntityType(xElement);
                 typeList.Add(enT);
-                Logger.Log($"Entity Type '{enT.Namespace}.{enT.Name}' parsed");
+                Logger.Log($"Entity Type '{enT.NameSpace}.{enT.Name}' parsed");
             }
             EntityTypes = typeList;
         }
@@ -41,7 +36,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             {
                 var enT = new EnumType(xElement);
                 enumList.Add(enT);
-                Logger.Log($"Enum Type  '{enT.Namespace}.{enT.Name}' parsed");
+                Logger.Log($"Enum Type  '{enT.NameSpace}.{enT.Name}' parsed");
             }
             EnumTypes = enumList;
 
@@ -60,7 +55,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 Logger.Log($"Entity set '{tContainer.Name}' parsed");
             }
 
-            EntitySetList = containerList;
+            EntitySets = containerList;
         }
 
         public MetadataReader(XDocument xdoc)

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using FuryTech.OdataTypescriptServiceGenerator.Models;
+using FuryTech.OdataTypescriptServiceGenerator.Interfaces;
 
 namespace FuryTech.OdataTypescriptServiceGenerator
 {
@@ -49,15 +49,17 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             }
         }
 
-        public void PrepareNamespaceFolders(IEnumerable<string> namespaces)
+        public void PrepareNamespaceFolders(IEnumerable<IRenderableElement> namespaces)
         {
-            Logger.Log("Preparing namespace structure");
-            var nsList = namespaces.ToList().OrderBy(a => a);
+            var nsList = namespaces.ToList().OrderBy(a => a.NameSpace);
             foreach (var ns in nsList)
             {
-                var path = ns.Replace('.', Path.DirectorySeparatorChar);
-                Logger.Log($"Creating subdirectory '{path}'");
-                _di.CreateSubdirectory(path);
+                var path = ns.NameSpace.Replace('.', Path.DirectorySeparatorChar);
+                if (!Directory.Exists( Path.Combine(_di.FullName, path)))
+                {
+                    Logger.Log($"Creating subdirectory '{path}'");
+                    _di.CreateSubdirectory(path);
+                }
             }
         }
 

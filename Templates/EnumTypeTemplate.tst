@@ -1,5 +1,5 @@
 ﻿// Created by FuryTech.ODataTypeScriptGenerator
 
-export enum $EnumType$ {
+export enum $Name$ {
 $members$
 }

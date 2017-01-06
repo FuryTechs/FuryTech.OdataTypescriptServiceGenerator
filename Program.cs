@@ -32,11 +32,18 @@ namespace FuryTech.OdataTypescriptServiceGenerator
 
                 directoryManager.PrepareOutput(_purgeOutput);
 
-                directoryManager.PrepareNamespaceFolders(metadataReader.NameSpaces);
+                Logger.Log("Preparing namespace structure");
+                directoryManager.PrepareNamespaceFolders(metadataReader.EnumTypes);
+                directoryManager.PrepareNamespaceFolders(metadataReader.EntitySets);
+                directoryManager.PrepareNamespaceFolders(metadataReader.EnumTypes);
+
+                templateRenderer.CreateContext(_metadataPath, "4.0");
 
                 templateRenderer.CreateEntityTypes(metadataReader.EntityTypes);
 
                 templateRenderer.CreateEnums(metadataReader.EnumTypes);
+
+                templateRenderer.CreateServicesForEntitySets(metadataReader.EntitySets);
 
             }
             catch (Exception ex)

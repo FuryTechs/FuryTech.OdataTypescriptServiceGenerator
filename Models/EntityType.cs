@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using FuryTech.OdataTypescriptServiceGenerator.Interfaces;
 
 namespace FuryTech.OdataTypescriptServiceGenerator.Models
 {
-    public class EntityType
+    public class EntityType : IHasImports
     {
         public EntityType(XElement sourceElement)
         {
@@ -17,7 +18,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Models
                     .SingleOrDefault()?
                     .Attribute("Name")?
                     .Value;
-            Namespace = sourceElement.Parent?.Attribute("Namespace")?.Value;
+            NameSpace = sourceElement.Parent?.Attribute("Namespace")?.Value;
 
             Properties = sourceElement.Descendants().Where(a => a.Name.LocalName == "Property")
                 .Select(propElement => new Property()
@@ -38,7 +39,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Models
                 }).ToList();
         }
 
-        public string Namespace { get; private set; }
+        public string NameSpace { get; private set; }
         public string Name { get; private set; }
         public string KeyName { get; set; }
         public List<Property> Properties { get; private set; }
@@ -48,18 +49,15 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Models
         {
             get
             {
-                var namespaces = NavigationProperties.Select(a => a.Type).Where(a=>a != Namespace+"."+Name).Distinct().ToList();
-                
+                var namespaces = NavigationProperties.Select(a => a.Type).Where(a=>a != NameSpace + "."+Name).Distinct().ToList();
                 /*For enums with namespaces*/
-                namespaces.AddRange(Properties.Where(a=>a.Type.StartsWith(Namespace)).Select(a=>a.Type));
-               
-
-                var uris = namespaces.Select(a => new Uri("//" + a.Replace(".", "/")));
+                namespaces.AddRange(Properties.Where(a=>a.Type.StartsWith(NameSpace)).Select(a=>a.Type));
+                var uris = namespaces.Select(a => new Uri("r://" + a.Replace(".", "/"), UriKind.Absolute));
                 return uris;
             }
         }
 
         private Uri _uri;
-        public Uri Uri => _uri ?? (_uri = new Uri("//"+Namespace.Replace(".", "/") + "/" + Name));
+        public Uri Uri => _uri ?? (_uri = new Uri("r://" + NameSpace.Replace(".", "/") + "/" + Name, UriKind.Absolute));
     }
 }
