@@ -16,4 +16,13 @@ export abstract class ODataServiceAbstract<T> {
     public abstract Get(id: any): ODataGetOperation<T>;
 
     public abstract Query(): ODataQuery<T>;
+
+    protected getEntityUriSegment(entityKey: any): string {
+        entityKey = entityKey.toString();
+        if (!/^[0-9]*$/.test(entityKey)) {
+            return `('${entityKey}')`;
+        }
+
+        return  `(${entityKey})`;
+    }
 }

@@ -10,7 +10,7 @@ export class ODataQuery<T> extends ODataOperation<T>{
     private evaluate: (queryString) => Promise<ODataQueryResult<T>>;
 
     private buildQueryUrl(): string {
-        let url = this.CollectionUrl + '?';
+        let url = '?';
         if (this._filter) { url += `$filter=${this._filter}&`; }
         if (this._top) { url += `$top=${this._top}&`; }
         if (this._skip) { url += `$skip=${this._skip}&`; }
@@ -20,8 +20,8 @@ export class ODataQuery<T> extends ODataOperation<T>{
         return url;
     }
 
-    constructor(_collectionUrl: string, _evaluate: (queryString) => Promise<ODataQueryResult<T>>) {
-        super(_collectionUrl);
+    constructor(_evaluate: (queryString) => Promise<ODataQueryResult<T>>) {
+        super();
         this.evaluate = _evaluate;
     }
 
