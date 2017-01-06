@@ -22,10 +22,10 @@ class ODataError implements Error{
     }
 }
 
-
-@Injectable()
 export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T> {
-    constructor(private http: Http) {
+
+    protected abstract http: Http;
+    constructor() {
         super();
      }
 
@@ -69,7 +69,12 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
 
 
     private async evaluateQuery(queryString:string): Promise<ODataQueryResult<T>>{
-        return this.http.get(this.entitySetUrl + queryString).map(a => {
+
+        //ToDo: FIXME!!!! :(
+
+        let url = this.entitySetUrl + queryString;
+        let http = this.http;
+        return http.get(url).map(a => {
             return a.json() as ODataQueryResult<T>;
         }).toPromise();
     }
