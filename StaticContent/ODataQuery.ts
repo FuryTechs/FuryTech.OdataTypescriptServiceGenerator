@@ -1,7 +1,7 @@
 import { ODataOperation } from './ODataOperation';
 import { ODataQueryResult } from './ODataQueryResult';
 
-export class ODataQuery<T> extends ODataOperation<T>{
+export class ODataQuery<T> extends ODataOperation<T> {
     private _filter: string;
     private _top: number;
     private _skip: number;

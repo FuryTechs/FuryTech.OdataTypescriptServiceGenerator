@@ -134,7 +134,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
         {
 
             var template = _contextTemplate.Clone().ToString()
-                .Replace("$ODataPath$", metadataPath.TrimEnd("$metadata".ToCharArray()))
+                .Replace("$odataRootPath$", metadataPath.TrimEnd("$metadata".ToCharArray()))
                 .Replace("$metadataPath$", metadataPath)
                 .Replace("$CreationDate$", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
                 .Replace("$ODataVersion$", odataVersion);
