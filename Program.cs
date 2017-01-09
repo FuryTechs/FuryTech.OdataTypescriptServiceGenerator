@@ -38,7 +38,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 Logger.Log("Preparing namespace structure");
                 directoryManager.PrepareNamespaceFolders(metadataReader.EnumTypes);
                 directoryManager.PrepareNamespaceFolders(metadataReader.EntitySets);
-                directoryManager.PrepareNamespaceFolders(metadataReader.EnumTypes);
+                directoryManager.PrepareNamespaceFolders(metadataReader.EntityTypes);
 
                 directoryManager.DirectoryCopy("./StaticContent", _outputDirectory, true);
 
