@@ -8,7 +8,7 @@ import { AngularODataServiceBase } from '../AngularOdataServiceBase';
 @Injectable()
 export class $Name$ extends AngularODataServiceBase<$entityTypeName$> {
     public entitySetUrl = '$entitySetUrl$';
-
+$customActions$$customFunctions$
     constructor(protected http: Http) {
         super();
     }

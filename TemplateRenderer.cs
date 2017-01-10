@@ -19,6 +19,8 @@ namespace FuryTech.OdataTypescriptServiceGenerator
         private readonly string _entitySetServiceTemplate;
         private readonly string _contextTemplate;
         private readonly string _angularModuleTemplate;
+        private readonly string _angularCustomActionTemplate;
+        private readonly string _angularCustomFunctionTemplate;
 
 
         private readonly string _outFolder;
@@ -34,7 +36,8 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             _entitySetServiceTemplate = File.ReadAllText(ConfigurationManager.AppSettings["EntitySetServiceTemplate"]);
             _contextTemplate = File.ReadAllText(ConfigurationManager.AppSettings["ContextTemplate"]);
             _angularModuleTemplate = File.ReadAllText(ConfigurationManager.AppSettings["AngularModuleTemplate"]);
-
+            _angularCustomActionTemplate = File.ReadAllText(ConfigurationManager.AppSettings["AngularCustomActionTemplate"]);
+            _angularCustomFunctionTemplate = File.ReadAllText(ConfigurationManager.AppSettings["AngularCustomFunctionTemplate"]);
         }
 
         private string ParseImports(IHasImports entity)
@@ -122,11 +125,46 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 CreateServiceForEntitySet(entitySet);
             }
         }
+
+        private string GetCustomActionsTemplate(List<CustomAction> actions)
+        {
+            if (!actions.Any())
+            {
+                return string.Empty;
+            }
+            var result = "\r\n/*Custom Actions*/\r\n";
+            foreach (var customAction in actions)
+            {
+                result += _angularCustomActionTemplate.Clone().ToString()
+                    .Replace("$actionName$", customAction.Name);
+            }
+            return result;
+        }
+
+        private string GetCustomFunctionsTemplate(List<CustomFunction> functions)
+        {
+            if (!functions.Any())
+            {
+                return string.Empty;
+            }
+            var result = "\r\n/*Custom Functions*/\r\n";
+            foreach (var customFunction in functions)
+            {
+                result += _angularCustomFunctionTemplate.Clone().ToString()
+                    .Replace("$functionName$", customFunction.Name);
+            }
+            return result;
+
+
+        }
+
         private void CreateServiceForEntitySet(EntitySet entitySet)
         {
             var template = _entitySetServiceTemplate.Clone().ToString()
                 .Replace("$entitySetUrl$", entitySet.EntitySetName)
-                .Replace("$entityTypeName$", entitySet.EntityType.Split('.').Last());
+                .Replace("$entityTypeName$", entitySet.EntityType.Split('.').Last())
+                .Replace("$customActions$", GetCustomActionsTemplate(entitySet.CustomActions.ToList()))
+                .Replace("$customFunctions$", GetCustomFunctionsTemplate(entitySet.CustomFunctions.ToList()));
             DoRender(entitySet, template);
         }
 

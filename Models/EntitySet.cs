@@ -9,13 +9,15 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Models
 {
     public class EntitySet : IHasImports
     {
-        public EntitySet(XElement xElement)
+        public EntitySet(XElement xElement, IEnumerable<CustomAction> customActions, IEnumerable<CustomFunction> functions)
         {
             EntitySetName = xElement.Attribute("Name")?.Value;
             Name = char.ToUpper(EntitySetName[0]) + EntitySetName.Substring(1) + "Service";
             EntityType = xElement.Attribute("EntityType")?.Value;
             NameSpace =
                 xElement.Ancestors().FirstOrDefault(a => a.Attribute("Namespace") != null)?.Attribute("Namespace").Value;
+            CustomActions = customActions.Where(a=>a.BindingParameter == EntityType);
+            CustomFunctions = functions.Where(a => a.BindingParameter == EntityType);
         }
 
         public string Name { get; private set; }
@@ -35,8 +37,12 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Models
                     new Uri("r://" + EntityType.Replace(".", Path.DirectorySeparatorChar.ToString()), UriKind.Absolute),
                     new Uri("r://ODataContext", UriKind.Absolute)
                 };
-                return list;
+                list.AddRange(CustomActions.SelectMany(a=>a.Imports));
+                return list.Distinct();
             }
         }
+
+        public IEnumerable<CustomAction> CustomActions { get; set; }
+        public IEnumerable<CustomFunction> CustomFunctions { get; set; }
     }
 }

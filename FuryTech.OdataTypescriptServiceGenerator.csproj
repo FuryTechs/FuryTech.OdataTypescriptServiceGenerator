@@ -51,6 +51,9 @@
     <Compile Include="Loader.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Models\AngularModule.cs" />
+    <Compile Include="Models\CustomAction.cs" />
+    <Compile Include="Models\CustomEventAbstract.cs" />
+    <Compile Include="Models\CustomFunction.cs" />
     <Compile Include="Models\EntitySet.cs" />
     <Compile Include="Models\EntityType.cs" />
     <Compile Include="Models\EnumMember.cs" />
@@ -91,6 +94,12 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Templates\AngularCustomActionTemplate.tst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\AngularCustomFunctionTemplate.tst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\AngularModuleTemplate.tst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

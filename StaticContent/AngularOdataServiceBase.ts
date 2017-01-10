@@ -32,7 +32,9 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
     }
 
     private async evaluateGetOperation(queryString: string): Promise<T> {
-        return this.http.get(this.entitySetUrl + queryString).map(a => {
+        return this.http.get(this.entitySetUrl + queryString, {
+            withCredentials: true,
+        }).map(a => {
             return a.json() as T;
         }).toPromise();
     }
@@ -51,7 +53,9 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
         return entity || null;
     }
     public async Post(entity: T): Promise<T> {
-        return this.http.post(this.entitySetUrl, entity)
+        return this.http.post(this.entitySetUrl, entity, {
+            withCredentials: true
+        })
             .map(this.extractResponse)
             .toPromise();
     }
@@ -62,11 +66,28 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
     }
 
     public async Put(id: any, entity: T): Promise<T> {
-        return null;
+        throw new Error('NotImplementedYet!');
     }
 
     public async Delete(id: any): Promise<any> {
-        return null;
+        throw new Error('NotImplementedYet!');
+    }
+
+    protected async ExecCustomAction(entity: T, ...args: any[]): Promise<any> {
+        throw new Error('NotImplementedYet!');
+    }
+
+    protected async ExecCustomCollectionAction(...args: any[]): Promise<any> {
+        throw new Error('NotImplementedYet!');
+    }
+
+    protected async ExecCustomFunction(entity: T, ...args: any[]): Promise<any> {
+        throw new Error('NotImplementedYet!');
+    }
+
+    protected async ExecCustomCollectionFunction(id: any, ...args: any[]): Promise<any> {
+        throw new Error('NotImplementedYet!');
+
     }
 
 
@@ -77,7 +98,9 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
 
         let evaluateQuery = (queryString: string): Promise<ODataQueryResult<T>> => {
             let url = entitySetUrl + queryString;
-            let subscription = http.get(url).map(a => {
+            let subscription = http.get(url, {
+                withCredentials: true
+            }).map(a => {
                 return a.json() as ODataQueryResult<T>;
             });
 
