@@ -29,7 +29,7 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
 
     private requestOptions: RequestOptionsArgs = {
         withCredentials: true
-    }
+    };
 
     protected abstract entitySetUrlSegment: string;
 
@@ -63,6 +63,7 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
         let entity: T = body;
         return entity || null;
     }
+
     public async Post(entity: T): Promise<T> {
         return this.http.post(this.entitySetUrl, entity, this.requestOptions)
             .map(this.extractResponse)
@@ -91,24 +92,28 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
     protected async ExecCustomAction(actionName: string, entity: T, ...args: any[]): Promise<any> {
         return this.http
             .post(this.entitySetUrl + this.getEntityUriSegment(entity) + `/${actionName}`, null, this.requestOptions)
+            .map(a => { return a.json(); })
             .toPromise();
     }
 
     protected async ExecCustomCollectionAction(actionName: string, ...args: any[]): Promise<any> {
         return this.http
             .post(this.entitySetUrl + actionName, null, this.requestOptions)
+            .map(a => { return a.json(); })
             .toPromise();
     }
 
     protected async ExecCustomFunction(fucntionName: string, entity: T, ...args: any[]): Promise<any> {
         return this.http
             .get(this.entitySetUrl + this.getEntityUriSegment(entity) + `/${fucntionName}`, this.requestOptions)
+            .map(a => { return a.json(); })
             .toPromise();
     }
 
     protected async ExecCustomCollectionFunction(fucntionName: string, ...args: any[]): Promise<any> {
         return this.http
             .get(this.entitySetUrl + fucntionName, this.requestOptions)
+            .map(a => { return a.json(); })
             .toPromise();
 
     }
