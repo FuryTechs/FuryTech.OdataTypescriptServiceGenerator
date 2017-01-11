@@ -31,6 +31,10 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
         withCredentials: true
     }
 
+    private get entitySetUrl(): string {
+        return ODataContext.ODataRootPath + this.entitySetUrlSegment + '/';
+    }
+
     protected abstract http: Http;
     constructor() {
         super();
@@ -111,10 +115,10 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
     Query(): ODataQuery<T> {
 
         let http = this.http;
-        let entitySetUrl = ODataContext.ODataRootPath + this.entitySetUrl;
+        let entitySetUrl = this.entitySetUrl;
 
         let evaluateQuery = (queryString: string): Promise<ODataQueryResult<T>> => {
-            let url = entitySetUrl + queryString;
+            let url = this.entitySetUrl + queryString;
             let subscription = http.get(url, {
                 withCredentials: true
             }).map(a => {
