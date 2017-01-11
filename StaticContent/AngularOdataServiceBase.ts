@@ -1,6 +1,7 @@
+import { RequestOptionsArgs } from '@angular/http/src/interfaces';
 import * as https from 'https';
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, RequestOptions, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { ODataGetOperation } from './ODataGetOperation';
@@ -25,6 +26,10 @@ class ODataError implements Error {
 }
 
 export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T> {
+
+    private requestOptions: RequestOptionsArgs = {
+        withCredentials: true
+    }
 
     protected abstract http: Http;
     constructor() {
@@ -53,40 +58,52 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
         return entity || null;
     }
     public async Post(entity: T): Promise<T> {
-        return this.http.post(this.entitySetUrl, entity, {
-            withCredentials: true
-        })
+        return this.http.post(this.entitySetUrl, entity, this.requestOptions)
             .map(this.extractResponse)
             .toPromise();
     }
 
     public async Patch(id: any, entity: T): Promise<any> {
-        let body = JSON.stringify(entity);
-
+        return this.http
+            .patch(this.entitySetUrl + this.getEntityUriSegment(id), entity, this.requestOptions)
+            .toPromise();
     }
 
     public async Put(id: any, entity: T): Promise<T> {
-        throw new Error('NotImplementedYet!');
+        return this.http
+            .put(this.entitySetUrl + this.getEntityUriSegment(id), entity, this.requestOptions)
+            .map(this.extractResponse)
+            .toPromise();
     }
 
     public async Delete(id: any): Promise<any> {
-        throw new Error('NotImplementedYet!');
+        return this.http
+            .delete(this.entitySetUrl + this.getEntityUriSegment(id), this.requestOptions)
+            .toPromise();
     }
 
-    protected async ExecCustomAction(entity: T, ...args: any[]): Promise<any> {
-        throw new Error('NotImplementedYet!');
+    protected async ExecCustomAction(actionName: string, entity: T, ...args: any[]): Promise<any> {
+        return this.http
+            .post(this.entitySetUrl + this.getEntityUriSegment(entity) + `/${actionName}`, null, this.requestOptions)
+            .toPromise();
     }
 
-    protected async ExecCustomCollectionAction(...args: any[]): Promise<any> {
-        throw new Error('NotImplementedYet!');
+    protected async ExecCustomCollectionAction(actionName: string, ...args: any[]): Promise<any> {
+        return this.http
+            .post(this.entitySetUrl + actionName, null, this.requestOptions)
+            .toPromise();
     }
 
-    protected async ExecCustomFunction(entity: T, ...args: any[]): Promise<any> {
-        throw new Error('NotImplementedYet!');
+    protected async ExecCustomFunction(fucntionName: string, entity: T, ...args: any[]): Promise<any> {
+        return this.http
+            .get(this.entitySetUrl + this.getEntityUriSegment(entity) + `/${fucntionName}`, this.requestOptions)
+            .toPromise();
     }
 
-    protected async ExecCustomCollectionFunction(id: any, ...args: any[]): Promise<any> {
-        throw new Error('NotImplementedYet!');
+    protected async ExecCustomCollectionFunction(fucntionName: string, ...args: any[]): Promise<any> {
+        return this.http
+            .get(this.entitySetUrl + fucntionName, this.requestOptions)
+            .toPromise();
 
     }
 

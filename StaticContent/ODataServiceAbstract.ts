@@ -1,6 +1,6 @@
 import { RequestArgs } from '@angular/http/src/interfaces';
 import { ODataQuery } from './ODataQuery';
-import {ODataGetOperation} from './ODataGetOperation';
+import { ODataGetOperation } from './ODataGetOperation';
 
 export abstract class ODataServiceAbstract<T> {
 
@@ -14,10 +14,10 @@ export abstract class ODataServiceAbstract<T> {
 
     public async abstract Delete(id: any): Promise<any>;
 
-    protected abstract ExecCustomAction(id: any, ...args: any[]): Promise<any>;
-    protected abstract ExecCustomCollectionAction(...args: any[]): Promise<any>;
-    protected abstract ExecCustomFunction(id: any, ...args: any[]): Promise<any>;
-    protected abstract ExecCustomCollectionFunction(...args: any[]): Promise<any>;
+    protected abstract ExecCustomAction(actionName: string, id: any, ...args: any[]): Promise<any>;
+    protected abstract ExecCustomCollectionAction(actionName: string, ...args: any[]): Promise<any>;
+    protected abstract ExecCustomFunction(fucntionName: string, id: any, ...args: any[]): Promise<any>;
+    protected abstract ExecCustomCollectionFunction(fucntionName: string, ...args: any[]): Promise<any>;
 
     public abstract Get(id: any): ODataGetOperation<T>;
 
@@ -29,6 +29,6 @@ export abstract class ODataServiceAbstract<T> {
             return `('${entityKey}')`;
         }
 
-        return  `(${entityKey})`;
+        return `(${entityKey})`;
     }
 }

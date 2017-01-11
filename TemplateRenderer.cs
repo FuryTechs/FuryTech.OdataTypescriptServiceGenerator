@@ -142,11 +142,25 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             {
                 return string.Empty;
             }
-            var result = "\r\n/*Custom Actions*/\r\n";
+            var result = "\r\n\t/*Custom Actions*/\r\n";
             foreach (var customAction in actions)
             {
+                var returnTypeName = !string.IsNullOrWhiteSpace(customAction.ReturnType) ? customAction.ReturnType.Split('.').Last(a => !string.IsNullOrWhiteSpace(a))
+                    + (customAction.ReturnsCollection ? "[]" : "") : "any";
+                var baseExecFunctionName = customAction.IsCollectionAction
+                    ? "ExecCustomCollectionAction"
+                    : "ExecCustomAction";
+
+                var entityArgument = customAction.IsCollectionAction ? "" : customAction.BindingParameter.Split('.').Last(a => !string.IsNullOrWhiteSpace(a));
+                var argumentWithType = customAction.IsCollectionAction ? "" : $"{entityArgument}: {entityArgument}";
+
                 result += _angularCustomActionTemplate.Clone().ToString()
-                    .Replace("$actionName$", customAction.Name);
+                    .Replace("$actionName$", customAction.Name)
+                    .Replace("$actionFullName$", customAction.NameSpace + "." + customAction.Name)
+                    .Replace("$returnType$", returnTypeName)
+                    .Replace("$execName$", baseExecFunctionName)
+                    .Replace("$argument$", ", " + entityArgument)
+                    .Replace("$argumentWithType$", argumentWithType);
             }
             return result;
         }
@@ -157,15 +171,27 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             {
                 return string.Empty;
             }
-            var result = "\r\n/*Custom Functions*/\r\n";
+            var result = "\r\n\t/*Custom Functions*/\r\n";
             foreach (var customFunction in functions)
             {
+                var returnTypeName = customFunction.ReturnType.Split('.').Last(a => !string.IsNullOrWhiteSpace(a))
+                    + (customFunction.ReturnsCollection ? "[]" : "");
+                var baseExecFunctionName = customFunction.IsCollectionAction
+                    ? "ExecCustomCollectionFunction"
+                    : "ExecCustomFunction";
+
+                var entityArgument = customFunction.IsCollectionAction ? "" : customFunction.BindingParameter.Split('.').Last(a=>!string.IsNullOrWhiteSpace(a));
+                var argumentWithType = customFunction.IsCollectionAction ? "" : $"{entityArgument}: {entityArgument}";
+
                 result += _angularCustomFunctionTemplate.Clone().ToString()
-                    .Replace("$functionName$", customFunction.Name);
+                    .Replace("$functionName$", customFunction.Name)
+                    .Replace("$functionFullName$", customFunction.NameSpace + "." + customFunction.Name)
+                    .Replace("$returnType$", returnTypeName)
+                    .Replace("$execName$", baseExecFunctionName)
+                    .Replace("$argument$", ", " + entityArgument)
+                    .Replace("$argumentWithType$", argumentWithType);
             }
             return result;
-
-
         }
 
         private void CreateServiceForEntitySet(EntitySet entitySet)

@@ -38,6 +38,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Models
                     new Uri("r://ODataContext", UriKind.Absolute)
                 };
                 list.AddRange(CustomActions.SelectMany(a=>a.Imports));
+                list.AddRange(CustomFunctions.SelectMany(a => a.Imports));
                 return list.Distinct();
             }
         }
