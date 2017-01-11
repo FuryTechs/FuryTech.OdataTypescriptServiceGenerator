@@ -31,7 +31,9 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
         withCredentials: true
     }
 
-    private get entitySetUrl(): string {
+    protected abstract entitySetUrlSegment: string;
+
+    protected get entitySetUrl(): string {
         return ODataContext.ODataRootPath + this.entitySetUrlSegment + '/';
     }
 
