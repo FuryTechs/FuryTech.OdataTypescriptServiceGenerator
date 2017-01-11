@@ -132,10 +132,6 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
                 return a.json() as ODataQueryResult<T>;
             });
 
-            subscription.subscribe(a => {
-
-            });
-
             return subscription.toPromise();
         };
 
