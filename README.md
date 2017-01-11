@@ -3,7 +3,7 @@ This project is a small command line .NET application to help scaffolding an Ang
 
 ##Usage
 
-1. download
+1. Download & Configure
   * edit settings in app.config
   * edit the "metadataPath" setting to point to your endpoint (save your metadata.xml to a file if you have authentication issues)
   * set your "endpointName" variable
