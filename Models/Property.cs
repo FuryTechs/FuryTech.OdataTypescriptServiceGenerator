@@ -14,8 +14,12 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Models
                 switch (Type)
                 {
                     case "Edm.String":
+                    case "Edm.Duration":
+                    case "Edm.Binary":
                         return "string";
+                    case "Edm.Int16":
                     case "Edm.Int32":
+                    case "Edm.Decimal":
                         return "number";
                     case "Edm.Boolean":
                         return "boolean";

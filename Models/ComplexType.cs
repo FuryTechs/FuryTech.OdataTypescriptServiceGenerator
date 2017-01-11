@@ -3,9 +3,9 @@ using FuryTech.OdataTypescriptServiceGenerator.Abstracts;
 
 namespace FuryTech.OdataTypescriptServiceGenerator.Models
 {
-    public class CustomFunction : CustomEventAbstract
+    public class ComplexType : TypescriptModelClassAbstract
     {
-        public CustomFunction(XElement xElement) : base(xElement)
+        public ComplexType(XElement sourceElement) : base(sourceElement)
         {
         }
     }

@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstracts\TypescriptModelClassAbstract.cs" />
     <Compile Include="DirectoryManager.cs" />
     <Compile Include="Extensions\ImportsExtensions.cs" />
     <Compile Include="Interfaces\IHasImports.cs" />
@@ -51,8 +52,9 @@
     <Compile Include="Loader.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Models\AngularModule.cs" />
+    <Compile Include="Models\ComplexType.cs" />
     <Compile Include="Models\CustomAction.cs" />
-    <Compile Include="Models\CustomEventAbstract.cs" />
+    <Compile Include="Abstracts\CustomEventAbstract.cs" />
     <Compile Include="Models\CustomFunction.cs" />
     <Compile Include="Models\EntitySet.cs" />
     <Compile Include="Models\EntityType.cs" />

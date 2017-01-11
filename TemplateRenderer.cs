@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using FuryTech.OdataTypescriptServiceGenerator.Abstracts;
 using FuryTech.OdataTypescriptServiceGenerator.Extensions;
 using FuryTech.OdataTypescriptServiceGenerator.Interfaces;
 using FuryTech.OdataTypescriptServiceGenerator.Models;
@@ -72,10 +73,19 @@ namespace FuryTech.OdataTypescriptServiceGenerator
         {
             foreach (var entityType in types)
             {
-                CreateEntityType(entityType);
+                CreateTypescriptModelClass(entityType);
             }
         }
-        private void CreateEntityType(EntityType entityType)
+
+        public void CreateComplexTypes(IEnumerable<ComplexType> types)
+        {
+            foreach (var complexType in types)
+            {
+                CreateTypescriptModelClass(complexType);
+            }
+        }
+
+        private void CreateTypescriptModelClass(TypescriptModelClassAbstract entityType)
         {
             var props = entityType.Properties.Select(prop =>
                 _propertyTemplate.Clone()

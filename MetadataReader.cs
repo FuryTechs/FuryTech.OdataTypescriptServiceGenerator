@@ -8,10 +8,13 @@ namespace FuryTech.OdataTypescriptServiceGenerator
     public class MetadataReader
     {
         public List<EntityType> EntityTypes { get; private set; }
+        public List<ComplexType> ComplexTypes { get; private set; }
+
         public List<EnumType> EnumTypes { get; private set; }
         public List<EntitySet> EntitySets { get; private set; }
         public List<CustomAction> CustomActions { get; private set; }
         public List<CustomFunction> CustomFunctions { get; private set; }
+
 
         private void ReadEntityTypes(XDocument xdoc)
         {
@@ -26,6 +29,21 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 Logger.Log($"Entity Type '{enT.NameSpace}.{enT.Name}' parsed");
             }
             EntityTypes = typeList;
+        }
+
+        private void ReadComplexTypes(XDocument xdoc)
+        {
+            Logger.Log("Parsing entity types...");
+            var typeList = new List<ComplexType>();
+            var elements = xdoc.Descendants().Where(a => a.Name.LocalName == "ComplexType");
+
+            foreach (var xElement in elements)
+            {
+                var enT = new ComplexType(xElement);
+                typeList.Add(enT);
+                Logger.Log($"Entity Type '{enT.NameSpace}.{enT.Name}' parsed");
+            }
+            ComplexTypes = typeList;
         }
 
         private void ReadEnums(XDocument xdoc)
@@ -92,6 +110,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
         public MetadataReader(XDocument xdoc)
         {
             ReadEntityTypes(xdoc);
+            ReadComplexTypes(xdoc);
             ReadEnums(xdoc);
 
             ReadCustomActions(xdoc);

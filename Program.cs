@@ -39,12 +39,14 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 directoryManager.PrepareNamespaceFolders(metadataReader.EnumTypes);
                 directoryManager.PrepareNamespaceFolders(metadataReader.EntitySets);
                 directoryManager.PrepareNamespaceFolders(metadataReader.EntityTypes);
+                directoryManager.PrepareNamespaceFolders(metadataReader.ComplexTypes);
 
                 directoryManager.DirectoryCopy("./StaticContent", _outputDirectory, true);
 
                 templateRenderer.CreateContext(_metadataPath, "4.0");
 
                 templateRenderer.CreateEntityTypes(metadataReader.EntityTypes);
+                templateRenderer.CreateComplexTypes(metadataReader.ComplexTypes);
 
                 templateRenderer.CreateEnums(metadataReader.EnumTypes);
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using FuryTech.OdataTypescriptServiceGenerator.Interfaces;
 
-namespace FuryTech.OdataTypescriptServiceGenerator.Models
+namespace FuryTech.OdataTypescriptServiceGenerator.Abstracts
 {
     public abstract class CustomEventAbstract : IHasImports
     {
