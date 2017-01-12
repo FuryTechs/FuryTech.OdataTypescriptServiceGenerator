@@ -19,9 +19,9 @@ namespace FuryTech.OdataTypescriptServiceGenerator
         private readonly string _enumMemberTemplate;
         private readonly string _entitySetServiceTemplate;
         private readonly string _contextTemplate;
-        private readonly string _angularModuleTemplate;
-        private readonly string _angularCustomActionTemplate;
-        private readonly string _angularCustomFunctionTemplate;
+        private readonly string _ModuleTemplate;
+        private readonly string _CustomActionTemplate;
+        private readonly string _CustomFunctionTemplate;
 
 
         private readonly string _outFolder;
@@ -36,9 +36,9 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             _enumMemberTemplate = File.ReadAllText(ConfigurationManager.AppSettings["EnumMemberTemplate"]);
             _entitySetServiceTemplate = File.ReadAllText(ConfigurationManager.AppSettings["EntitySetServiceTemplate"]);
             _contextTemplate = File.ReadAllText(ConfigurationManager.AppSettings["ContextTemplate"]);
-            _angularModuleTemplate = File.ReadAllText(ConfigurationManager.AppSettings["AngularModuleTemplate"]);
-            _angularCustomActionTemplate = File.ReadAllText(ConfigurationManager.AppSettings["AngularCustomActionTemplate"]);
-            _angularCustomFunctionTemplate = File.ReadAllText(ConfigurationManager.AppSettings["AngularCustomFunctionTemplate"]);
+            _ModuleTemplate = File.ReadAllText(ConfigurationManager.AppSettings["ModuleTemplate"]);
+            _CustomActionTemplate = File.ReadAllText(ConfigurationManager.AppSettings["CustomActionTemplate"]);
+            _CustomFunctionTemplate = File.ReadAllText(ConfigurationManager.AppSettings["CustomFunctionTemplate"]);
         }
 
         private string ParseImports(IHasImports entity)
@@ -154,7 +154,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 var entityArgument = customAction.IsCollectionAction ? "" : customAction.BindingParameter.Split('.').Last(a => !string.IsNullOrWhiteSpace(a));
                 var argumentWithType = customAction.IsCollectionAction ? "" : $"{entityArgument}: {entityArgument}";
 
-                result += _angularCustomActionTemplate.Clone().ToString()
+                result += _CustomActionTemplate.Clone().ToString()
                     .Replace("$actionName$", customAction.Name)
                     .Replace("$actionFullName$", customAction.NameSpace + "." + customAction.Name)
                     .Replace("$returnType$", returnTypeName)
@@ -183,7 +183,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 var entityArgument = customFunction.IsCollectionAction ? "" : customFunction.BindingParameter.Split('.').Last(a=>!string.IsNullOrWhiteSpace(a));
                 var argumentWithType = customFunction.IsCollectionAction ? "" : $"{entityArgument}: {entityArgument}";
 
-                result += _angularCustomFunctionTemplate.Clone().ToString()
+                result += _CustomFunctionTemplate.Clone().ToString()
                     .Replace("$functionName$", customFunction.Name)
                     .Replace("$functionFullName$", customFunction.NameSpace + "." + customFunction.Name)
                     .Replace("$returnType$", returnTypeName)
@@ -217,7 +217,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
 
         public void CreateAngularModule(AngularModule module)
         {
-            var template = _angularModuleTemplate.Clone().ToString()
+            var template = _ModuleTemplate.Clone().ToString()
                 .Replace("$moduleProviders$", string.Join(",\r\n\t",module.EntitySets.Select(a=>a.Name)))
                 .Replace("$moduleName$", module.Name);
 

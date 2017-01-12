@@ -9,21 +9,9 @@ import { ODataServiceAbstract } from './ODataServiceAbstract';
 import { ODataQuery } from './ODataQuery';
 import { ODataQueryResult } from './ODataQueryResult';
 import { ODataContext } from './ODataContext';
+import { ODataError } from './ODataError';
 
 // created by FuryTech.ODataTypeScriptGenerator
-
-class ODataError implements Error {
-    public Status: number;
-    public Response: Response;
-
-    public name: string;
-    public message: string;
-
-    constructor(status: number, response: any) {
-        this.name = 'OData Request Error';
-        this.message = response;
-    }
-}
 
 export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T> {
 
@@ -92,28 +80,28 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
     protected async ExecCustomAction(actionName: string, entity: T, ...args: any[]): Promise<any> {
         return this.http
             .post(this.entitySetUrl + this.getEntityUriSegment(entity) + `/${actionName}`, null, this.requestOptions)
-            .map(a => { return a.json(); })
+            .map(a => {return a.json(); } )
             .toPromise();
     }
 
     protected async ExecCustomCollectionAction(actionName: string, ...args: any[]): Promise<any> {
         return this.http
             .post(this.entitySetUrl + actionName, null, this.requestOptions)
-            .map(a => { return a.json(); })
+            .map(a => {return a.json(); } )
             .toPromise();
     }
 
     protected async ExecCustomFunction(fucntionName: string, entity: T, ...args: any[]): Promise<any> {
         return this.http
             .get(this.entitySetUrl + this.getEntityUriSegment(entity) + `/${fucntionName}`, this.requestOptions)
-            .map(a => { return a.json(); })
+            .map(a => {return a.json(); } )
             .toPromise();
     }
 
     protected async ExecCustomCollectionFunction(fucntionName: string, ...args: any[]): Promise<any> {
         return this.http
             .get(this.entitySetUrl + fucntionName, this.requestOptions)
-            .map(a => { return a.json(); })
+            .map(a => {return a.json(); } )
             .toPromise();
 
     }
