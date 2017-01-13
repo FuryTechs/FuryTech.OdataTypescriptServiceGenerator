@@ -50,10 +50,11 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Abstracts
         {
             get
             {
-                var namespaces = NavigationProperties.Select(a => a.Type).Where(a => a != NameSpace + "." + Name).Distinct().ToList();
-                /*For enums with namespaces*/
-                namespaces.AddRange(Properties.Where(a => a.Type.StartsWith(NameSpace)).Select(a => a.Type));
-                var uris = namespaces.Select(a => new Uri("r://" + a.Replace(".", "/"), UriKind.Absolute));
+                var namespaces = NavigationProperties.Select(a => a.Type).Where(a => a != NameSpace + "." + Name).ToList();
+                /*For Not-EDM types (e.g. enums with namespaces, complex types*/
+                namespaces.AddRange(Properties.Where(a => !a.Type.StartsWith("Edm.")).Select(a => a.Type));
+
+                var uris = namespaces.Distinct().Select(a => new Uri("r://" + a.Replace(".", "/"), UriKind.Absolute));
                 return uris;
             }
         }
