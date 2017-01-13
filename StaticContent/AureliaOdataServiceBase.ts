@@ -9,19 +9,17 @@ import { ODataQueryResult } from './ODataQueryResult';
 
 export abstract class AureliaOdataServiceBase<T> extends ODataServiceAbstract<T>{
 
-    protected abstract entitySetUrlSegment: string;
-
     private http: HttpClient;
-    
+
     protected get entitySetUrl(): string {
         return ODataContext.ODataRootPath + this.entitySetUrlSegment + '/';
     }
 
-    constructor() {
+    constructor(protected entitySetUrlSegment: string) {
         super();
-        this.http = new HttpClient().configure(c=>{
+        this.http = new HttpClient().configure(c => {
             c.withBaseUrl(this.entitySetUrl),
-            c.withCredentials(true)
+                c.withCredentials(true)
         });
     }
 
