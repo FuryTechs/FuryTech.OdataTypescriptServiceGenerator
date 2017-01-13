@@ -1,3 +1,4 @@
 ﻿$imports$
-
-export * as $moduleName$;
+// Aurelia Module for '$moduleName$'
+// 
+export { $moduleProviders$ };
