@@ -103,10 +103,16 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Templates\AngularCustomActionTemplate.tst">
+    <None Include="Templates\AureliaEntitySetService.tst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Templates\AngularCustomFunctionTemplate.tst">
+    <None Include="Templates\AureliaModuleTemplate.tst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\CustomActionTemplate.tst">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Templates\CustomFunctionTemplate.tst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Templates\AngularModuleTemplate.tst">

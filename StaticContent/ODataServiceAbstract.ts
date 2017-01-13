@@ -1,4 +1,3 @@
-import { RequestArgs } from '@angular/http/src/interfaces';
 import { ODataQuery } from './ODataQuery';
 import { ODataGetOperation } from './ODataGetOperation';
 

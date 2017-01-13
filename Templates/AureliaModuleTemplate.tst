@@ -1,0 +1,3 @@
+﻿$imports$
+
+export * as $moduleName$;
