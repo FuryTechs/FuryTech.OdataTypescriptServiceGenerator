@@ -16,7 +16,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Abstracts
                 sourceElement.Descendants()
                     .Where(a => a.Name.LocalName == "Key")
                     .Descendants()
-                    .SingleOrDefault()?
+                    .FirstOrDefault()?  //ToDo: Composite keys
                     .Attribute("Name")?
                     .Value;
             NameSpace = sourceElement.Parent?.Attribute("Namespace")?.Value;
