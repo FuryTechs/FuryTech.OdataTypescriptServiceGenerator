@@ -15,10 +15,13 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Models
                 {
                     case "Edm.String":
                     case "Edm.Duration":
+                    case "Edm.Guid":
                     case "Edm.Binary":
                         return "string";
                     case "Edm.Int16":
                     case "Edm.Int32":
+                    case "Edm.Int64":
+                    case "Edm.Double":
                     case "Edm.Decimal":
                         return "number";
                     case "Edm.Boolean":
