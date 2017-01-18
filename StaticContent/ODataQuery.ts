@@ -17,6 +17,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
         if (this._orderBy) { url += `$orderby=${this._orderBy}&`; }
         if (this._expand) { url += `$expand=${this._expand}&`; }
         if (this._select) { url += `$expand=${this._select}&`; }
+        if (url === '?') url = '';
         return url;
     }
 
