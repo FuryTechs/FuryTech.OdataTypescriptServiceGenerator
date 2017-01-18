@@ -6,6 +6,7 @@ export class ODataGetOperation<T> extends ODataOperation<T> {
         let url = '?';
         if (this._expand) { url += `$expand=${this._expand}&`; }
         if (this._select) { url += `$expand=${this._select}&`; }
+        if (url === '?') url = '';
         return url;
     }
 
