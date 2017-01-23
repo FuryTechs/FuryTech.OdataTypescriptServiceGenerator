@@ -22,7 +22,7 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
     protected abstract entitySetUrlSegment: string;
 
     protected get entitySetUrl(): string {
-        return ODataContext.ODataRootPath + this.entitySetUrlSegment + '/';
+        return ODataContext.ODataRootPath + this.entitySetUrlSegment;
     }
 
     protected abstract http: Http;

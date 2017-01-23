@@ -12,7 +12,11 @@ export abstract class AureliaOdataServiceBase<T> extends ODataServiceAbstract<T>
     private http: HttpClient;
 
     protected get entitySetUrl(): string {
-        return ODataContext.ODataRootPath + this.entitySetUrlSegment + '/';
+        return ODataContext.ODataRootPath + this.entitySetUrlSegment;
+    }
+
+    protected getUriForEntity(id: any): string {
+        return this.entitySetUrl + this.getEntityUriSegment(id)
     }
 
     constructor(protected entitySetUrlSegment: string) {
@@ -23,15 +27,10 @@ export abstract class AureliaOdataServiceBase<T> extends ODataServiceAbstract<T>
         });
     }
 
-    private async evaluateGetOperation(queryString: string): Promise<T> {
-        var result = await this.http.get(queryString);
-        return result.content;
-    }
-
     public Get(id: any): ODataGetOperation<T> {
-        let idSegment = this.getEntityUriSegment(id);
-        return new ODataGetOperation<T>(idSegment, async (queryString: string) => {
-            var result = await this.http.get(idSegment + queryString);
+        let entityUri = this.getUriForEntity(id);
+        return new ODataGetOperation<T>(entityUri, async (queryString: string) => {
+            var result = await this.http.get(entityUri + queryString);
             return result.content;
         });
     };
@@ -50,22 +49,22 @@ export abstract class AureliaOdataServiceBase<T> extends ODataServiceAbstract<T>
     }
 
     public async Patch(id: any, entity: T): Promise<any> {
-        var result = await this.http.patch(this.getEntityUriSegment(id), entity);
+        var result = await this.http.patch(this.getUriForEntity(id), entity);
         return result.content;
     }
 
     public async Put(id: any, entity: T): Promise<T> {
-        var result = await this.http.put(this.getEntityUriSegment(id), entity);
+        var result = await this.http.put(this.getUriForEntity(id), entity);
         return result.content;
     }
 
     public async Delete(id: any): Promise<any> {
-        var result = await this.http.delete(this.getEntityUriSegment(id));
+        var result = await this.http.delete(this.getUriForEntity(id));
         return result.content;
     }
 
     protected async ExecCustomAction(actionName: string, entity: T, ...args: any[]): Promise<any> {
-        var result = await this.http.post(this.getEntityUriSegment(entity) + `/${actionName}`, null);
+        var result = await this.http.post(this.getUriForEntity(entity) + `/${actionName}`, null);
         return result.content;
     }
 
@@ -75,7 +74,7 @@ export abstract class AureliaOdataServiceBase<T> extends ODataServiceAbstract<T>
     }
 
     protected async ExecCustomFunction(fucntionName: string, entity: T, ...args: any[]): Promise<any> {
-        let result = await this.http.get(this.getEntityUriSegment(entity) + `/${fucntionName}`);
+        let result = await this.http.get(this.getUriForEntity(entity) + `/${fucntionName}`);
         return result.content;
     }
 
@@ -91,7 +90,7 @@ export abstract class AureliaOdataServiceBase<T> extends ODataServiceAbstract<T>
         let entitySetUrl = this.entitySetUrl;
 
         let evaluateQuery = async (queryString: string): Promise<ODataQueryResult<T>> => {
-            let url = this.entitySetUrl + queryString;
+            let url = this.entitySetUrl + "/" + queryString;
             let response = await http.get(url);
             return response.content;
         };
