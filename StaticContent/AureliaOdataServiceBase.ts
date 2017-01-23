@@ -30,7 +30,10 @@ export abstract class AureliaOdataServiceBase<T> extends ODataServiceAbstract<T>
 
     public Get(id: any): ODataGetOperation<T> {
         let idSegment = this.getEntityUriSegment(id);
-        return new ODataGetOperation<T>(idSegment, this.evaluateGetOperation);
+        return new ODataGetOperation<T>(idSegment, async (queryString: string) => {
+            var result = await this.http.get(queryString);
+            return result.content;
+        });
     };
 
     private extractResponse(res: HttpResponseMessage) {
