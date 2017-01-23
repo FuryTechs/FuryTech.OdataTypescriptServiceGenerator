@@ -30,17 +30,15 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
         super();
     }
 
-    private async evaluateGetOperation(queryString: string): Promise<T> {
+    public Get(id: any): ODataGetOperation<T> {
+        let idSegment = this.getEntityUriSegment(id);
+        return new ODataGetOperation<T>(idSegment, async (queryString: string) => {
         return this.http.get(this.entitySetUrl + queryString, {
             withCredentials: true,
         }).map(a => {
             return a.json() as T;
         }).toPromise();
-    }
-
-    public Get(id: any): ODataGetOperation<T> {
-        let idSegment = this.getEntityUriSegment(id);
-        return new ODataGetOperation<T>(idSegment, this.evaluateGetOperation);
+    });
     };
 
     private extractResponse(res: Response) {
