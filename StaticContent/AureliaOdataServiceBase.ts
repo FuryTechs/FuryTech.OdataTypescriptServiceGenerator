@@ -63,8 +63,8 @@ export abstract class AureliaOdataServiceBase<T> extends ODataServiceAbstract<T>
         return result.content;
     }
 
-    protected async ExecCustomAction(actionName: string, entity: T, ...args: any[]): Promise<any> {
-        var result = await this.http.post(this.getUriForEntity(entity) + `/${actionName}`, null);
+    protected async ExecCustomAction(actionName: string, entityId: any, ...args: any[]): Promise<any> {
+        var result = await this.http.post(this.getUriForEntity(entityId) + `/${actionName}`, null);
         return result.content;
     }
 
@@ -73,8 +73,8 @@ export abstract class AureliaOdataServiceBase<T> extends ODataServiceAbstract<T>
         return result.content;
     }
 
-    protected async ExecCustomFunction(fucntionName: string, entity: T, ...args: any[]): Promise<any> {
-        let result = await this.http.get(this.getUriForEntity(entity) + `/${fucntionName}`);
+    protected async ExecCustomFunction(fucntionName: string, entityId: any, ...args: any[]): Promise<any> {
+        let result = await this.http.get(this.getUriForEntity(entityId) + `/${fucntionName}`);
         return result.content;
     }
 
