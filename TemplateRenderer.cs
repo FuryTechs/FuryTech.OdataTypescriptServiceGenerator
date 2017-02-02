@@ -151,8 +151,8 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                     ? "ExecCustomCollectionAction"
                     : "ExecCustomAction";
 
-                var entityArgument = customAction.IsCollectionAction ? "" : customAction.BindingParameter.Split('.').Last(a => !string.IsNullOrWhiteSpace(a));
-                var argumentWithType = customAction.IsCollectionAction ? "" : $"{entityArgument}Id: any";
+                var entityArgument = customAction.IsCollectionAction ? "" : customAction.BindingParameter.Split('.').Last(a => !string.IsNullOrWhiteSpace(a))+"Id";
+                var argumentWithType = customAction.IsCollectionAction ? "" : $"{entityArgument}: any";
 
                 result += _CustomActionTemplate.Clone().ToString()
                     .Replace("$actionName$", customAction.Name)
@@ -180,8 +180,8 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                     ? "ExecCustomCollectionFunction"
                     : "ExecCustomFunction";
 
-                var entityArgument = customFunction.IsCollectionAction ? "" : customFunction.BindingParameter.Split('.').Last(a=>!string.IsNullOrWhiteSpace(a));
-                var argumentWithType = customFunction.IsCollectionAction ? "" : $"{entityArgument}Id: any";
+                var entityArgument = customFunction.IsCollectionAction ? "" : customFunction.BindingParameter.Split('.').Last(a=>!string.IsNullOrWhiteSpace(a))+"Id";
+                var argumentWithType = customFunction.IsCollectionAction ? "" : $"{entityArgument}: any";
 
                 result += _CustomFunctionTemplate.Clone().ToString()
                     .Replace("$functionName$", customFunction.Name)
