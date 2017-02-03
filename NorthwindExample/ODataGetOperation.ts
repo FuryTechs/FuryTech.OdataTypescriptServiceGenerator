@@ -1,0 +1,21 @@
+import { ODataOperation } from './ODataOperation';
+
+export class ODataGetOperation<T> extends ODataOperation<T> {
+
+    private buildQueryUrl(): string {
+        let url = '?';
+        if (this._expand) { url += `$expand=${this._expand}&`; }
+        if (this._select) { url += `$expand=${this._select}&`; }
+        return url;
+    }
+
+    public async Exec(): Promise<T> {
+        let queryUrl = this.buildQueryUrl();
+        return await this.evaluate(queryUrl);
+    }
+
+    constructor(private idSegment: string, private evaluate: (queryString) => Promise<T>) {
+        super();
+    }
+
+}
