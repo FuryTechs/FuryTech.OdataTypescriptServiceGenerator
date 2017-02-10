@@ -7,6 +7,12 @@ export abstract class ODataOperation<T> {
         return this;
     }
 
+    public ExpandWithArrow<K extends keyof T>(val:(arrow:T)=>any) {
+        let instance:T = <T>new Object();
+        let fields = val(instance);
+        console.log(fields);
+    }
+
     public Select<K extends keyof T>(...select: K[]) {
         this._select = this.parseStringOrStringArray(...select);
         return this;
