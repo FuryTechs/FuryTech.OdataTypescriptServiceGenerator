@@ -9,6 +9,10 @@ export class ODataGetOperation<T> extends ODataOperation<T> {
         return url;
     }
 
+    /**
+     * Executes the Get operation
+     * @returns An awaitable Promise<T>
+     */
     public async Exec(): Promise<T> {
         let queryUrl = this.buildQueryUrl();
         return await this.evaluate(queryUrl);

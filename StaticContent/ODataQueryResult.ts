@@ -16,5 +16,8 @@ export class ODataQueryResult<T>{
         return this['@odata.count'];
     }
 
+    /**
+     * The query result in an array
+     */
     public value: T[];
 }
