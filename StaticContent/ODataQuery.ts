@@ -1,3 +1,4 @@
+import { ODataFilterBuilder, ODataFilterExpression } from './ODataFilterBuilder';
 import { ODataOperation } from './ODataOperation';
 import { ODataQueryResult } from './ODataQueryResult';
 
@@ -30,6 +31,13 @@ export class ODataQuery<T> extends ODataOperation<T> {
         return this;
     };
 
+    public BuildFilter(build: (b:ODataFilterExpression<T>) => void): ODataQuery<T>{
+        let builder = ODataFilterBuilder.Create<T>();
+        build(builder);
+        this._filter = builder.filterBuilderRef.toString();
+        return this;
+    }
+
     public Top(top: number): ODataQuery<T> {
         this._top = top;
         return this;
@@ -40,8 +48,8 @@ export class ODataQuery<T> extends ODataOperation<T> {
         return this;
     }
 
-    public OrderBy(orderBy: string): ODataQuery<T> {
-        this._orderBy = orderBy;
+    public OrderBy<K extends keyof T>(...orderBy: K[]): ODataQuery<T> {
+        this._orderBy = this.parseStringOrStringArray(...orderBy);
         return this;
     }
 
