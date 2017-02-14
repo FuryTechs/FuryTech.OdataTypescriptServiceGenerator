@@ -2,20 +2,12 @@ export abstract class ODataOperation<T> {
     protected _expand: string;
     protected _select: string;
 
-    /**
-     * Sets the OData $expand= property
-     * @param ...expand The field name(s) to be expanded
-     */
-    public Expand<K extends keyof T>(...expand: K[]) {
+    public Expand(...expand: string[]) {
         this._expand = this.parseStringOrStringArray(...expand);
         return this;
     }
 
-    /**
-     * Sets the OData $select= property
-     * @param ...select The field name(s) to be included in the OData Select
-     */
-    public Select<K extends keyof T>(...select: K[]) {
+    public Select(...select: string[]) {
         this._select = this.parseStringOrStringArray(...select);
         return this;
     }
@@ -28,8 +20,5 @@ export abstract class ODataOperation<T> {
         return input as string;
     }
 
-    /**
-     * Executes the operation, should return an awaitable Promise
-     */
     abstract Exec(...args): Promise<any>;
 }
