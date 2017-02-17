@@ -6,6 +6,15 @@ export class ODataFilterExpression<T>{
 
     private value: string = "";
 
+    private getFilterValueSegment(value: any): string {
+        value = value.toString();
+        if (!/^[0-9]*$/.test(value)) {
+            return `('${value}')`;
+        }
+
+        return `(${value})`;
+    }
+
     constructor(public filterBuilderRef: ODataFilterBuilder<T>) { }
 
     private Finialize() {
@@ -20,8 +29,8 @@ export class ODataFilterExpression<T>{
      * @returns The next ODataFilterConnection (Fluent)
      */
 
-    public Equals<K extends keyof T>(field: K, value: string) {
-        this.value = `${field} eq '${value}'`;
+    public Equals<K extends keyof T>(field: K, value: any) {
+        this.value = `${field} eq ${this.getFilterValueSegment(value)}`;
         return this.Finialize();
     }
 
@@ -31,8 +40,8 @@ export class ODataFilterExpression<T>{
      * @param value The value to check
      * @returns The next ODataFilterConnection (Fluent)
      */
-    public NotEquals<K extends keyof T>(field: K, value: string) {
-        this.value = `${field} ne '${value}'`;
+    public NotEquals<K extends keyof T>(field: K, value: any) {
+        this.value = `${field} ne ${this.getFilterValueSegment(value)}'`;
         return this.Finialize();
     }
 
@@ -42,8 +51,8 @@ export class ODataFilterExpression<T>{
      * @param value The value to check
      * @returns The next ODataFilterConnection (Fluent)
      */
-    public GreaterThan<K extends keyof T>(field: K, value: string) {
-        this.value = `${field} gt '${value}'`;
+    public GreaterThan<K extends keyof T>(field: K, value: any) {
+        this.value = `${field} gt ${this.getFilterValueSegment(value)}`;
         return this.Finialize();
     }
 
@@ -53,8 +62,8 @@ export class ODataFilterExpression<T>{
      * @param value The value to check
      * @returns The next ODataFilterConnection (Fluent)
      */
-    public GreaterThanOrEquals<K extends keyof T>(field: K, value: string) {
-        this.value = `${field} ge '${value}'`;
+    public GreaterThanOrEquals<K extends keyof T>(field: K, value: any) {
+        this.value = `${field} ge ${this.getFilterValueSegment(value)}`;
         return this.Finialize();
     }
 
@@ -64,8 +73,8 @@ export class ODataFilterExpression<T>{
      * @param value The value to check
      * @returns The next ODataFilterConnection (Fluent)
      */
-    public LessThan<K extends keyof T>(field: K, value: string) {
-        this.value = `${field} lt '${value}'`;
+    public LessThan<K extends keyof T>(field: K, value: any) {
+        this.value = `${field} lt ${this.getFilterValueSegment(value)}`;
         return this.Finialize();
     }
 
@@ -76,8 +85,8 @@ export class ODataFilterExpression<T>{
      * @param value The value to check
      * @returns The next ODataFilterConnection (Fluent)
      */
-    public LessThanOrEquals<K extends keyof T>(field: K, value: string) {
-        this.value = `${field} le '${value}'`;
+    public LessThanOrEquals<K extends keyof T>(field: K, value: any) {
+        this.value = `${field} le ${this.getFilterValueSegment(value)}`;
         return this.Finialize();
     }
 
@@ -87,8 +96,8 @@ export class ODataFilterExpression<T>{
      * @param value The value to check
      * @returns The next ODataFilterConnection (Fluent)
      */
-    public Has<K extends keyof T>(field: K, value: string) {
-        this.value = `${field} has '${value}'`;
+    public Has<K extends keyof T>(field: K, value: any) {
+        this.value = `${field} has ${this.getFilterValueSegment(value)}`;
         return this.Finialize();
     }
 
