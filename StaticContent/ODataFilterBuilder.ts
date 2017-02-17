@@ -7,12 +7,12 @@ export class ODataFilterExpression<T>{
     private value: string = "";
 
     private getFilterValueSegment(value: any): string {
-        value = value.toString();
-        if (!/^[0-9]*$/.test(value)) {
-            return `('${value}')`;
+        let castedValue = value.toString();
+        if (typeof value == "string" && !/^[0-9]*$/.test(castedValue)) {
+            return `('${castedValue}')`;
         }
 
-        return `(${value})`;
+        return `(${castedValue})`;
     }
 
     constructor(public filterBuilderRef: ODataFilterBuilder<T>) { }
