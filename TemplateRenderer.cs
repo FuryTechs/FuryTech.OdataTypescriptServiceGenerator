@@ -55,8 +55,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             if (fileName == null)
                 fileName = entity.Name;
 
-            var imports = entity as IHasImports;
-            if (imports != null)
+            if (entity is IHasImports imports)
             {
                 template = template.Replace("$imports$", ParseImports(imports));
             }
@@ -142,7 +141,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             {
                 return string.Empty;
             }
-            var result = "\r\n\t/*Custom Actions*/\r\n";
+            var result = "\r\n    /*Custom Actions*/\r\n";
             foreach (var customAction in actions)
             {
                 var returnTypeName = !string.IsNullOrWhiteSpace(customAction.ReturnType) ? customAction.ReturnType.Split('.').Last(a => !string.IsNullOrWhiteSpace(a))
@@ -171,7 +170,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             {
                 return string.Empty;
             }
-            var result = "\r\n\t/*Custom Functions*/\r\n";
+            var result = "\r\n    /*Custom Functions*/\r\n";
             foreach (var customFunction in functions)
             {
                 var returnTypeName = customFunction.ReturnType.Split('.').Last(a => !string.IsNullOrWhiteSpace(a))
@@ -218,7 +217,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
         public void CreateAngularModule(AngularModule module)
         {
             var template = _ModuleTemplate.Clone().ToString()
-                .Replace("$moduleProviders$", string.Join(",\r\n\t",module.EntitySets.Select(a=>a.Name)))
+                .Replace("$moduleProviders$", string.Join(",\r\n    ",module.EntitySets.Select(a=>a.Name)))
                 .Replace("$moduleName$", module.Name);
 
             DoRender(module, template);
