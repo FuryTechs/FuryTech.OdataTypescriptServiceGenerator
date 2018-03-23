@@ -46,6 +46,7 @@
     <Compile Include="Abstracts\TypescriptModelClassAbstract.cs" />
     <Compile Include="DirectoryManager.cs" />
     <Compile Include="Extensions\ImportsExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Interfaces\IHasImports.cs" />
     <Compile Include="Interfaces\IHasUri.cs" />
     <Compile Include="Interfaces\INamespaced.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Models\Property.cs" />
     <Compile Include="Models\NavigationProperty.cs" />
     <Compile Include="MetadataReader.cs" />
+    <Compile Include="Models\TypeMapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemplateRenderer.cs" />
