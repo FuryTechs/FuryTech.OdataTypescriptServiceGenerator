@@ -143,7 +143,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="StaticContent\ODataFilterBuilder.ts" />
+    <Content Include="StaticContent\ODataFilterBuilder.ts">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
