@@ -1,14 +1,13 @@
-
 type FilterArgs<T, K> = [K, string];
 type FilterSegment<T> = ODataFilterExpression<T> | ODataFilterConnection<T>;
 
-export class ODataFilterExpression<T>{
+export class ODataFilterExpression<T> {
 
-    private value: string = "";
+    private value = '';
 
     private getFilterValueSegment(value: any): string {
-        let castedValue = value.toString();
-        if (typeof value == "string" && !/^[0-9]*$/.test(castedValue)) {
+        const castedValue = value.toString();
+        if (typeof value === 'string' && !/^[0-9]*$/.test(castedValue)) {
             return `('${castedValue}')`;
         }
 
@@ -107,7 +106,7 @@ export class ODataFilterExpression<T>{
      * @returns The next ODataFilterConnection (Fluent)
      */
     public Not<K extends keyof T>(build: (b: ODataFilterExpression<T>) => void) {
-        let builder = ODataFilterBuilder.Create<T>();
+        const builder = ODataFilterBuilder.Create<T>();
         build(ODataFilterBuilder.Create<T>());
         this.value = `not (${builder.toString()})`;
         return this.Finialize();
@@ -119,7 +118,7 @@ export class ODataFilterExpression<T>{
      * @returns The next ODataFilterConnection (Fluent)
      */
     public BuildFilter(build: (b: ODataFilterExpression<T>) => void) {
-        let builder = ODataFilterBuilder.Create<T>();
+        const builder = ODataFilterBuilder.Create<T>();
         build(ODataFilterBuilder.Create<T>());
         this.value = `(${builder.toString()})`;
         return this.Finialize();
@@ -135,7 +134,7 @@ export class ODataFilterExpression<T>{
 
 }
 
-export class ODataFilterConnection<T>{
+export class ODataFilterConnection<T> {
 
     private type: string;
     constructor(public filterBuilderRef: ODataFilterBuilder<T>) { }
@@ -145,7 +144,7 @@ export class ODataFilterConnection<T>{
      * @returns The next ODataFilterExpression (Fluent)
      */
     public get And() {
-        this.type = "and";
+        this.type = 'and';
         this.filterBuilderRef.filterSegments.push(this);
         return new ODataFilterExpression<T>(this.filterBuilderRef);
     }
@@ -155,7 +154,7 @@ export class ODataFilterConnection<T>{
     * @returns The next ODataFilterExpression (Fluent)
     */
     public get Or() {
-        this.type = "or";
+        this.type = 'or';
         this.filterBuilderRef.filterSegments.push(this);
         return new ODataFilterExpression<T>(this.filterBuilderRef);
     }
@@ -165,7 +164,7 @@ export class ODataFilterConnection<T>{
     }
 }
 
-export class ODataFilterBuilder<T>{
+export class ODataFilterBuilder<T> {
 
     public filterSegments: FilterSegment<T>[] = [];
 
@@ -175,8 +174,8 @@ export class ODataFilterBuilder<T>{
      * @returns The first ODataFilterExpression value for the ODataFilterBuilder
      */
     public static Create<T>(): ODataFilterExpression<T> {
-        let builder = new ODataFilterBuilder();
-        let firstSegment = new ODataFilterExpression(builder);
+        const builder = new ODataFilterBuilder();
+        const firstSegment = new ODataFilterExpression(builder);
         return firstSegment;
     }
 
