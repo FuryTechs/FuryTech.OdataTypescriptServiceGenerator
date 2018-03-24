@@ -41,7 +41,6 @@ export class ODataQuery<T> extends ODataOperation<T> {
     return this;
   }
 
-
   /**
    * Builds a query expression for the OData Query
    * @param build The builder expression
@@ -79,7 +78,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
    * @param orderBy The field name(s) in string
    * @returns The ODataQuery instance (Fluent)
    */
-  public OrderBy<K extends keyof T>(...orderBy: K[]): ODataQuery<T> {
+  public OrderBy<K extends keyof T | string>(...orderBy: K[]): ODataQuery<T> {
     this._orderBy = this.parseStringOrStringArray(...orderBy);
     return this;
   }

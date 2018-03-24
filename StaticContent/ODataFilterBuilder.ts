@@ -87,7 +87,12 @@ export class ODataFilterExpression<T> {
     public LessThanOrEquals<K extends keyof T>(field: K, value: any) {
         this.value = `${field} le ${this.getFilterValueSegment(value)}`;
         return this.Finialize();
-    }
+  }
+
+  public Contains<K extends keyof T>(field: K, value: any) {
+    this.value = `contains(${field},${this.getFilterValueSegment(value)})`;
+    return this.Finialize();
+  }
 
     /**
      * Creates an instance of a HAS (~has) filter segment
