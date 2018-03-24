@@ -1,6 +1,6 @@
 ﻿// Created by FuryTech.ODataTypeScriptGenerator
 $imports$
-export class $Name$ {
+export class $Name$ extends ODataEntity {
 
     /* Navigation properties */
 $navigationProperties$

@@ -51,22 +51,12 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Abstracts
         {
             get
             {
-                var namespaces = NavigationProperties.Select(a => a.Type).Where(a => a != NameSpace + "." + Name).ToList();
-                if (false)
-                {
-                    /*For Not-EDM types (e.g. enums with namespaces, complex types*/
-                    namespaces.AddRange(Properties.Where(a => !a.Type.StartsWith("Edm.") && !a.Type.IsCollection()).Select(a => a.Type));
-                    // For collections
-                    namespaces.AddRange(Properties.Where(a => a.Type.IsCollection()).Select(a => a.Type.BaseType()));
-                }
-                else
-                {
-                    /*For Not-EDM types (e.g. enums with namespaces, complex types*/
-                    namespaces.AddRange(Properties.Where(a => !a.Type.StartsWith("Edm.")).Select(a => a.Type));
-                    // For collections
-                    // namespaces.AddRange(Properties.Where(a => a.Type.IsCollection()).Select(a => a.Type.BaseType()));
-
-                }
+                var namespaces = new[] {"ODataEntity"}.ToList();
+                namespaces.AddRange(NavigationProperties.Select(a => a.Type).Where(a => a != NameSpace + "." + Name));
+                /*For Not-EDM types (e.g. enums with namespaces, complex types*/
+                namespaces.AddRange(Properties.Where(a => !a.Type.StartsWith("Edm.") && !a.Type.IsCollection()).Select(a => a.Type));
+                // For collections
+                namespaces.AddRange(Properties.Where(a => a.Type.IsCollection()).Select(a => a.Type.TypeOfCollection()));
 
                 var uris = namespaces.Distinct().Select(a => new Uri("r://" + a.Replace(".", "/"), UriKind.Absolute));
                 return uris;
