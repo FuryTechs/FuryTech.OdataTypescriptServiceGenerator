@@ -33,7 +33,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
 
         private void ReadComplexTypes(XDocument xdoc)
         {
-            Logger.Log("Parsing entity types...");
+            Logger.Log("Parsing complex types...");
             var typeList = new List<ComplexType>();
             var elements = xdoc.Descendants().Where(a => a.Name.LocalName == "ComplexType");
 
