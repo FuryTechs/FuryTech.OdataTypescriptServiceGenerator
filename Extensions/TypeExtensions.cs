@@ -19,9 +19,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Extensions
             if (IsCollection(typeString))
             {
                 // Retrieve the fully qualified type.
-                var startParen = typeString.IndexOf("(");
-                var endParen = typeString.IndexOf(")", startParen + 1, 1);
-                return typeString.Substring(startParen + 1, endParen - startParen - 1);
+                return typeString.TrimStart("Collection(".ToCharArray()).TrimEnd(')');
             }
 
             throw new ArgumentException("The supplied type string is not a collection.", nameof(typeString));

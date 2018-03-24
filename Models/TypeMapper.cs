@@ -68,7 +68,8 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Models
                     // A Collection(t) can be considered t[]
                     if (odataType.StartsWith("Collection("))
                     {
-                        return MapType(odataType.TrimStart("Collection(".ToCharArray()).TrimEnd(')'));
+                        var fullType = MapType(odataType.TrimStart("Collection(".ToCharArray()).TrimEnd(')'));
+                        return $"{fullType}[]";
                     }
 
                     // Don't reduce a custom type, keep the complete namespace.
