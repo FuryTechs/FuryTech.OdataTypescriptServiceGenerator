@@ -90,8 +90,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 _propertyTemplate.Clone()
                     .ToString()
                     .Replace("$propertyName$", prop.Name)
-                    .Replace("$propertyType$", prop.TypescriptType));
-
+                    .Replace("$propertyType$", DeduplicateNamespace(prop.TypescriptType)));
 
             var refs = entityType.NavigationProperties.Select(nav =>
                 _propertyTemplate.Clone()
@@ -105,6 +104,18 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 .Replace("$navigationProperties$", string.Join("", refs));
 
             DoRender(entityType, template);
+
+            // Sometimes ComplexTypes have non-navigation references to other complex types.
+            // Make sure we simplify the namespace.
+            string DeduplicateNamespace(string type)
+            {
+                if (type.StartsWith(entityType.NameSpace))
+                {
+                    return type.Split('.').Last();
+                }
+
+                return type;
+            }
         }
 
         public void CreateEnums(IEnumerable<EnumType> types)
