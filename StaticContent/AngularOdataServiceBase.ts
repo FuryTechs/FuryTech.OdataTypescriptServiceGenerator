@@ -87,15 +87,15 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
       .toPromise();
   }
 
-  protected async ExecCustomFunction(fucntionName: string, entity: T, ...args: any[]): Promise<any> {
+  protected async ExecCustomFunction(functionName: string, entity: T, ...args: any[]): Promise<any> {
     return this.http
-      .get(this.entitySetUrl + this.getEntityUriSegment(entity) + `/${fucntionName}`, this.requestOptions)
+      .get(this.entitySetUrl + this.getEntityUriSegment(entity) + `/${functionName}`, this.requestOptions)
       .toPromise();
   }
 
-  protected async ExecCustomCollectionFunction(fucntionName: string, ...args: any[]): Promise<any> {
+  protected async ExecCustomCollectionFunction(functionName: string, ...args: any[]): Promise<any> {
     return this.http
-      .get(this.entitySetUrl + fucntionName, this.requestOptions)
+      .get(this.entitySetUrl + functionName, this.requestOptions)
       .toPromise();
   }
 
