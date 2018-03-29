@@ -193,13 +193,18 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 var entityArgument = customFunction.IsCollectionAction ? "" : customFunction.BindingParameter.Split('.').Last(a=>!string.IsNullOrWhiteSpace(a))+"Id";
                 var argumentWithType = customFunction.IsCollectionAction ? "" : $"{entityArgument}: any";
 
+                // When returning a custom type, the returned JSON contains the object.
+                // When returning an Edm type, the returned JSON contains the value in the 'value' field.
+                bool isEdm = TypeMapper.IsBuiltInType(returnTypeName);
+
                 result += _CustomFunctionTemplate.Clone().ToString()
                     .Replace("$functionName$", customFunction.Name)
                     .Replace("$functionFullName$", customFunction.NameSpace + "." + customFunction.Name)
                     .Replace("$returnType$", returnTypeName)
                     .Replace("$execName$", baseExecFunctionName)
                     .Replace("$argument$", ", " + entityArgument)
-                    .Replace("$argumentWithType$", argumentWithType);
+                    .Replace("$argumentWithType$", argumentWithType)
+                    .Replace("$valueExtraction$", isEdm ? ".then(r => r.value)" : string.Empty);
             }
             return result;
         }
