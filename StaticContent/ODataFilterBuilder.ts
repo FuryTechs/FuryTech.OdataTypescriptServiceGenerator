@@ -9,6 +9,8 @@ export class ODataFilterExpression<T> {
     const castedValue = value.toString();
     if (typeof value === 'string' && !/^[0-9]*$/.test(castedValue)) {
       return `('${castedValue}')`;
+    } else if (typeof value === 'boolean' || typeof value === 'number') {
+      return `${castedValue}`;
     }
 
     return `'${castedValue}'`;
@@ -28,7 +30,7 @@ export class ODataFilterExpression<T> {
    * @returns The next ODataFilterConnection (Fluent)
    */
 
-  public Equals<K extends keyof T>(field: K, value: any) {
+  public Equals<K extends keyof T>(field: K | string, value: any) {
     this.value = `${field} eq ${this.getFilterValueSegment(value)}`;
     return this.Finalize();
   }
