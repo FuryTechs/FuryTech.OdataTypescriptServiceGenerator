@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
+import { Observable } from 'rxjs/Observable';
 
 import { ODataGetOperation } from './ODataGetOperation';
 import { ODataServiceAbstract } from './ODataServiceAbstract';
@@ -39,6 +40,11 @@ export abstract class AngularODataServiceBase<T> extends ODataServiceAbstract<T>
         return a as T;
       }).toPromise();
     });
+  }
+
+  public Direct<T>(query: string): Observable<T> {
+    return this.http.get(this.entitySetUrl + query, { withCredentials: true, })
+      .map(a => a as T);
   }
 
   private extractResponse(res: Response) {
