@@ -30,7 +30,7 @@ export class ODataFilterExpression<T> {
    * @returns The next ODataFilterConnection (Fluent)
    */
 
-  public Equals<K extends keyof T>(field: K | string, value: any) {
+  public Equals<K extends keyof T>(field: K, value: any) {
     this.value = `${field} eq ${this.getFilterValueSegment(value)}`;
     return this.Finalize();
   }
