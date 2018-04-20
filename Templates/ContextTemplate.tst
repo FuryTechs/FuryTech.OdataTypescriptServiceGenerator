@@ -1,6 +1,4 @@
-﻿// 
-
-export class ODataContext {
+﻿export class ODataContext {
     public static MetadataPath = '$metadataPath$';
     public static ODataRootPath = '$odataRootPath$';
     public static CreationDate = '$CreationDate$';

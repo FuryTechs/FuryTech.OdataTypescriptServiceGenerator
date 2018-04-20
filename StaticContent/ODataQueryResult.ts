@@ -1,4 +1,4 @@
-export class ODataQueryResult<T>{
+export class ODataQueryResult<T> {
     public '@odata.context': string;
     public '@odata.count': number;
 

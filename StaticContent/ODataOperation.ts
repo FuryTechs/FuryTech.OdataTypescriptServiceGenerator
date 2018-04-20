@@ -4,9 +4,9 @@ export abstract class ODataOperation<T> {
 
     /**
      * Sets the OData $expand= property
-     * @param ...expand The field name(s) to be expanded
+     * @param ...expand The field name(s) to be expanded OR a string representing more complex expansions (nested, for example)
      */
-    public Expand<K extends keyof T>(...expand: K[]) {
+    public Expand<K extends keyof T | string>(...expand: K[]) {
         this._expand = this.parseStringOrStringArray(...expand);
         return this;
     }

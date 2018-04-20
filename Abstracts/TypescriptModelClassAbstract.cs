@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using FuryTech.OdataTypescriptServiceGenerator.Extensions;
 using FuryTech.OdataTypescriptServiceGenerator.Interfaces;
 using FuryTech.OdataTypescriptServiceGenerator.Models;
 
@@ -50,9 +51,12 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Abstracts
         {
             get
             {
-                var namespaces = NavigationProperties.Select(a => a.Type).Where(a => a != NameSpace + "." + Name).ToList();
+                var namespaces = new[] {"ODataEntity"}.ToList();
+                namespaces.AddRange(NavigationProperties.Select(a => a.Type).Where(a => a != NameSpace + "." + Name));
                 /*For Not-EDM types (e.g. enums with namespaces, complex types*/
-                namespaces.AddRange(Properties.Where(a => !a.Type.StartsWith("Edm.")).Select(a => a.Type));
+                namespaces.AddRange(Properties.Where(a => !a.Type.StartsWith("Edm.") && !a.Type.IsCollection()).Select(a => a.Type));
+                // For collections
+                namespaces.AddRange(Properties.Where(a => a.Type.IsCollection()).Select(a => a.Type.TypeOfCollection()));
 
                 var uris = namespaces.Distinct().Select(a => new Uri("r://" + a.Replace(".", "/"), UriKind.Absolute));
                 return uris;

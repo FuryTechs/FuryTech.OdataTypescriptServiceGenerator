@@ -12,10 +12,10 @@ export abstract class ODataServiceAbstract<T> {
     public abstract Get(id: any): ODataGetOperation<T>;
 
     /**
- * Executes an OData Post Operation
- * @param entity the entity to be posted
- * @returns an awaitable promise with the created content
- */
+     * Executes an OData Post Operation
+     * @param entity the entity to be posted
+     * @returns an awaitable promise with the created content
+     */
 
     public async abstract Post(entity: T): Promise<T>;
 
@@ -50,6 +50,7 @@ export abstract class ODataServiceAbstract<T> {
      * @returns An awaitable promise
      */
     protected abstract ExecCustomAction(actionName: string, id: any, ...args: any[]): Promise<any>;
+
     /**
      * Executes a custom action on an OData entity collection
      * @param actionName The action's actionName
@@ -66,6 +67,7 @@ export abstract class ODataServiceAbstract<T> {
      * @returns An awaitable promise
      */
     protected abstract ExecCustomFunction(fucntionName: string, id: any, ...args: any[]): Promise<any>;
+
     /**
      * Executes a custom function on an OData entity collection
      * @param actionName The action's actionName

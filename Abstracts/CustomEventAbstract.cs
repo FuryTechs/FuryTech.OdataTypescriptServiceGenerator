@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using FuryTech.OdataTypescriptServiceGenerator.Interfaces;
+using FuryTech.OdataTypescriptServiceGenerator.Models;
 
 namespace FuryTech.OdataTypescriptServiceGenerator.Abstracts
 {
@@ -16,12 +17,21 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Abstracts
                 .Single(a => a.Name.LocalName == "Parameter" && a.Attribute("Name").Value == "bindingParameter")
                 .Attribute("Type")?.Value;
 
-            ReturnType = xElement.Descendants().SingleOrDefault(a => a.Name.LocalName == "ReturnType")?.Attribute("Type")?.Value;
-
-            if (!string.IsNullOrWhiteSpace(ReturnType) && ReturnType.StartsWith("Collection("))
+            // Recognize Edm types and transform as necessary.
+            var proposedType = xElement.Descendants().SingleOrDefault(a => a.Name.LocalName == "ReturnType")?.Attribute("Type")?.Value;
+            if (!string.IsNullOrWhiteSpace(proposedType))
             {
-                ReturnsCollection = true;
-                ReturnType = ReturnType.TrimStart("Collection(".ToCharArray()).TrimEnd(')');
+                if (proposedType.StartsWith("Collection("))
+                {
+                    ReturnsCollection = true;
+                    proposedType = proposedType.TrimStart("Collection(".ToCharArray()).TrimEnd(')');
+                }
+
+                ReturnType = TypeMapper.MapType(proposedType);
+            }
+            else
+            {
+                ReturnType = "";
             }
 
             if (!string.IsNullOrWhiteSpace(BindingParameter) && BindingParameter.StartsWith("Collection("))
@@ -50,7 +60,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Abstracts
             get
             {
                 var uriList = new List<Uri>();
-                if (!string.IsNullOrWhiteSpace(ReturnType))
+                if (!string.IsNullOrWhiteSpace(ReturnType) && !TypeMapper.IsBuiltInType(ReturnType))
                 {
                     uriList.Add(new Uri("r://" + ReturnType.Replace(".", Path.DirectorySeparatorChar.ToString())));
                 }

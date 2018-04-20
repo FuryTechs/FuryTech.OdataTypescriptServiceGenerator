@@ -32,9 +32,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="McMaster.Extensions.CommandLineUtils, Version=2.2.1.0, Culture=neutral, PublicKeyToken=6f71cb76b82f055d, processorArchitecture=MSIL">
+      <HintPath>packages\McMaster.Extensions.CommandLineUtils.2.2.1\lib\net45\McMaster.Extensions.CommandLineUtils.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +53,7 @@
     <Compile Include="Abstracts\TypescriptModelClassAbstract.cs" />
     <Compile Include="DirectoryManager.cs" />
     <Compile Include="Extensions\ImportsExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Interfaces\IHasImports.cs" />
     <Compile Include="Interfaces\IHasUri.cs" />
     <Compile Include="Interfaces\INamespaced.cs" />
@@ -63,9 +71,11 @@
     <Compile Include="Models\Property.cs" />
     <Compile Include="Models\NavigationProperty.cs" />
     <Compile Include="MetadataReader.cs" />
+    <Compile Include="Models\TypeMapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemplateRenderer.cs" />
+    <None Include="packages.config" />
     <None Include="Templates\PropertyTemplate.tst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -95,9 +105,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="StaticContent\AureliaOdataServiceBase.ts">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="StaticContent\ODataError.ts">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -141,7 +148,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="StaticContent\ODataFilterBuilder.ts" />
+    <Content Include="StaticContent\ODataFilterBuilder.ts">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="StaticContent\ODataEntity.ts">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

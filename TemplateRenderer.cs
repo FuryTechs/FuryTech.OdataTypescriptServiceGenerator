@@ -55,8 +55,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             if (fileName == null)
                 fileName = entity.Name;
 
-            var imports = entity as IHasImports;
-            if (imports != null)
+            if (entity is IHasImports imports)
             {
                 template = template.Replace("$imports$", ParseImports(imports));
             }
@@ -91,8 +90,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 _propertyTemplate.Clone()
                     .ToString()
                     .Replace("$propertyName$", prop.Name)
-                    .Replace("$propertyType$", prop.TypescriptType));
-
+                    .Replace("$propertyType$", DeduplicateNamespace(prop.TypescriptType)));
 
             var refs = entityType.NavigationProperties.Select(nav =>
                 _propertyTemplate.Clone()
@@ -106,6 +104,18 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 .Replace("$navigationProperties$", string.Join("", refs));
 
             DoRender(entityType, template);
+
+            // Sometimes ComplexTypes have non-navigation references to other complex types.
+            // Make sure we simplify the namespace.
+            string DeduplicateNamespace(string type)
+            {
+                if (type.StartsWith(entityType.NameSpace))
+                {
+                    return type.Split('.').Last();
+                }
+
+                return type;
+            }
         }
 
         public void CreateEnums(IEnumerable<EnumType> types)
@@ -142,7 +152,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             {
                 return string.Empty;
             }
-            var result = "\r\n\t/*Custom Actions*/\r\n";
+            var result = "\r\n    /*Custom Actions*/\r\n";
             foreach (var customAction in actions)
             {
                 var returnTypeName = !string.IsNullOrWhiteSpace(customAction.ReturnType) ? customAction.ReturnType.Split('.').Last(a => !string.IsNullOrWhiteSpace(a))
@@ -171,7 +181,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             {
                 return string.Empty;
             }
-            var result = "\r\n\t/*Custom Functions*/\r\n";
+            var result = "\r\n    /*Custom Functions*/\r\n";
             foreach (var customFunction in functions)
             {
                 var returnTypeName = customFunction.ReturnType.Split('.').Last(a => !string.IsNullOrWhiteSpace(a))
@@ -183,13 +193,18 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 var entityArgument = customFunction.IsCollectionAction ? "" : customFunction.BindingParameter.Split('.').Last(a=>!string.IsNullOrWhiteSpace(a))+"Id";
                 var argumentWithType = customFunction.IsCollectionAction ? "" : $"{entityArgument}: any";
 
+                // When returning a custom type, the returned JSON contains the object.
+                // When returning an Edm type, the returned JSON contains the value in the 'value' field.
+                bool isEdm = TypeMapper.IsBuiltInType(returnTypeName);
+
                 result += _CustomFunctionTemplate.Clone().ToString()
                     .Replace("$functionName$", customFunction.Name)
                     .Replace("$functionFullName$", customFunction.NameSpace + "." + customFunction.Name)
                     .Replace("$returnType$", returnTypeName)
                     .Replace("$execName$", baseExecFunctionName)
                     .Replace("$argument$", ", " + entityArgument)
-                    .Replace("$argumentWithType$", argumentWithType);
+                    .Replace("$argumentWithType$", argumentWithType)
+                    .Replace("$valueExtraction$", isEdm ? ".then(r => r.value)" : string.Empty);
             }
             return result;
         }
@@ -218,7 +233,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator
         public void CreateAngularModule(AngularModule module)
         {
             var template = _ModuleTemplate.Clone().ToString()
-                .Replace("$moduleProviders$", string.Join(",\r\n\t",module.EntitySets.Select(a=>a.Name)))
+                .Replace("$moduleProviders$", string.Join(",\r\n    ",module.EntitySets.Select(a=>a.Name)))
                 .Replace("$moduleName$", module.Name);
 
             DoRender(module, template);

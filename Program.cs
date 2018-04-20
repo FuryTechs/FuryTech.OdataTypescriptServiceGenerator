@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using FuryTech.OdataTypescriptServiceGenerator.Models;
+using McMaster.Extensions.CommandLineUtils;
 
 namespace FuryTech.OdataTypescriptServiceGenerator
 {
@@ -11,21 +12,29 @@ namespace FuryTech.OdataTypescriptServiceGenerator
         private static bool _purgeOutput;
         private static string _endpointName;
 
-        private static void InitConfig()
+        static int Main(string[] args)
         {
-            Logger.Log("Reading config...");
-            _metadataPath = ConfigurationManager.AppSettings["metadataPath"];
-            _outputDirectory = ConfigurationManager.AppSettings["output"];
-            _purgeOutput = bool.Parse(ConfigurationManager.AppSettings["purgeOutput"]);
-            _endpointName = ConfigurationManager.AppSettings["endpointName"];
-        }
+            var app = new CommandLineApplication();
+            app.HelpOption();
 
-        static void Main(string[] args)
-        {
-            try
+            // -m url The url to the OData metadata endpoint.
+            var metadataUri = app.Option("-m|--metadata <URL>", "The URL of the OData metadata endpoint", CommandOptionType.SingleValue)
+                .IsRequired();
+
+            var endpointNameOption = app.Option("-n|--name <NAME>", "The name of the endpoint", CommandOptionType.SingleValue)
+                .IsRequired();
+
+            var outputDirectory = app.Option("-o|--output <DIRECTORY>", "Output directory path.",
+                CommandOptionType.SingleValue);
+
+            app.OnExecute(() =>
             {
                 Logger.Log("Starting...");
-                InitConfig();
+
+                _metadataPath = metadataUri.Value();
+                _purgeOutput = true;
+                _endpointName = endpointNameOption.Value();
+                _outputDirectory = outputDirectory.HasValue() ? outputDirectory.Value() : "./output";
 
                 var xml = Loader.Load(_metadataPath);
                 var metadataReader = new MetadataReader(xml);
@@ -53,16 +62,12 @@ namespace FuryTech.OdataTypescriptServiceGenerator
                 templateRenderer.CreateServicesForEntitySets(metadataReader.EntitySets);
 
                 templateRenderer.CreateAngularModule(new AngularModule(_endpointName, metadataReader.EntitySets));
+                Console.Write("Completed...press any key to exit.");
+                Console.ReadKey();
+                return 0;
+            });
 
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Error details: {ex}");
-            }
-
-            Logger.Log("Service generation finished, exiting...");
-            Logger.Log("Press any key to exit");
-            Console.ReadKey();
+            return app.Execute(args);
         }
     }
 }
