@@ -20,13 +20,12 @@ namespace FuryTech.OdataTypescriptServiceGenerator
             // -m url The url to the OData metadata endpoint.
             var metadataUri = app.Option("-m|--metadata <URL>", "The URL of the OData metadata endpoint", CommandOptionType.SingleValue)
                 .IsRequired();
-            metadataUri.ShowInHelpText = true;
 
-            var endpointNameOption = app.Option("-n|--name <NAME>", "The name of the endpoint", CommandOptionType.SingleValue).IsRequired();
-            endpointNameOption.ShowInHelpText = true;
+            var endpointNameOption = app.Option("-n|--name <NAME>", "The name of the endpoint", CommandOptionType.SingleValue)
+                .IsRequired();
 
             var outputDirectory = app.Option("-o|--output <DIRECTORY>", "Output directory path.",
-                CommandOptionType.SingleOrNoValue);
+                CommandOptionType.SingleValue);
 
             app.OnExecute(() =>
             {
