@@ -104,7 +104,7 @@ export abstract class NativeOdataServiceBase<T> extends ODataServiceAbstract<T> 
      * @param ...args The other optional arguments
      * @returns An awaitable promise
      */
-    protected async ExecCustomAction<TData, TReturns>(actionName: string, entityId: any, postData: TData): Promise<TReturns> {
+    protected async ExecCustomAction<TReturns, TData = {}>(actionName: string, entityId: any, postData?: TData): Promise<TReturns> {
         return await this.extractResponse<TReturns>(this.getUriForEntity(entityId) + `/${actionName}`, {
             method: 'POST',
             body: JSON.stringify(postData),
@@ -117,7 +117,7 @@ export abstract class NativeOdataServiceBase<T> extends ODataServiceAbstract<T> 
      * @param ...args The other optional arguments
      * @returns An awaitable promise
      */
-    protected async ExecCustomCollectionAction<TData, TReturns>(actionName: string, postData: TData): Promise<TReturns> {
+    protected async ExecCustomCollectionAction<TReturns, TData = {}>(actionName: string, postData?: TData): Promise<TReturns> {
         return await this.extractResponse<TReturns>(actionName, {
             method: 'POST',
             body: JSON.stringify(postData),
