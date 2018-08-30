@@ -1,6 +1,6 @@
 ﻿// Created by FuryTech.ODataTypeScriptGenerator
 $imports$
-export class $Name$ {
+export interface $Name$ {
 
     /* Navigation properties */
 $navigationProperties$

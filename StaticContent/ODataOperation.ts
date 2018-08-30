@@ -1,6 +1,6 @@
 export abstract class ODataOperation<T> {
-    protected _expand: string;
-    protected _select: string;
+    protected _expand!: string;
+    protected _select!: string;
 
     /**
      * Sets the OData $expand= property
@@ -20,16 +20,16 @@ export abstract class ODataOperation<T> {
         return this;
     }
 
-    protected parseStringOrStringArray(...input: string[]): string {
+    /**
+     * Executes the operation, should return an awaitable Promise
+     */
+    public abstract Exec(): Promise<any>;
+
+    protected parseStringOrStringArray(...input: Array<string | number | symbol>): string {
         if (input instanceof Array) {
-            return input.join(',');
+            return input.join(",");
         }
 
         return input as string;
     }
-
-    /**
-     * Executes the operation, should return an awaitable Promise
-     */
-    abstract Exec(...args): Promise<any>;
 }

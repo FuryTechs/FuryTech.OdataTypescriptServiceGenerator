@@ -3,12 +3,12 @@ import { ODataOperation } from './ODataOperation';
 import { ODataQueryResult } from './ODataQueryResult';
 
 export class ODataQuery<T> extends ODataOperation<T> {
-    private _filter: string;
-    private _top: number;
-    private _skip: number;
-    private _orderBy: string;
+    private _filter!: string;
+    private _top!: number;
+    private _skip!: number;
+    private _orderBy!: string;
 
-    private evaluate: (queryString) => Promise<ODataQueryResult<T>>;
+    private evaluate: (queryString: string) => Promise<ODataQueryResult<T>>;
 
     private buildQueryUrl(): string {
         let url = '?';
@@ -22,7 +22,7 @@ export class ODataQuery<T> extends ODataOperation<T> {
         return url;
     }
 
-    constructor(_evaluate: (queryString) => Promise<ODataQueryResult<T>>) {
+    constructor(_evaluate: (queryString: string) => Promise<ODataQueryResult<T>>) {
         super();
         this.evaluate = _evaluate;
     }

@@ -1,1 +1,1 @@
-﻿    public $propertyName$: $propertyType$;
+﻿    $propertyName$: $propertyType$;

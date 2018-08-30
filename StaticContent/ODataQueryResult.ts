@@ -19,5 +19,5 @@ export class ODataQueryResult<T>{
     /**
      * The query result in an array
      */
-    public value: T[];
+    public value: T[] = [];
 }

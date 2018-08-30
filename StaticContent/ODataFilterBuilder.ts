@@ -137,7 +137,7 @@ export class ODataFilterExpression<T>{
 
 export class ODataFilterConnection<T>{
 
-    private type: string;
+    private type: 'and' | 'or' = "and";
     constructor(public filterBuilderRef: ODataFilterBuilder<T>) { }
 
     /**

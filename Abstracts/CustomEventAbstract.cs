@@ -12,8 +12,8 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Abstracts
         public CustomEventAbstract(XElement xElement)
         {
             Name = xElement.Attribute("Name")?.Value;
-            BindingParameter = xElement.Descendants()
-                .Single(a => a.Name.LocalName == "Parameter" && a.Attribute("Name").Value == "bindingParameter")
+            BindingParameter = xElement.Descendants()?
+                .SingleOrDefault(a => a.Name.LocalName == "Parameter" && a.Attribute("Name")?.Value == "bindingParameter")?
                 .Attribute("Type")?.Value;
 
             ReturnType = xElement.Descendants().SingleOrDefault(a => a.Name.LocalName == "ReturnType")?.Attribute("Type")?.Value;
