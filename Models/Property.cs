@@ -23,6 +23,7 @@ namespace FuryTech.OdataTypescriptServiceGenerator.Models
                     case "Edm.Int64":
                     case "Edm.Double":
                     case "Edm.Decimal":
+                    case "Edm.Byte":
                         return "number";
                     case "Edm.Boolean":
                         return "boolean";
